@@ -4,6 +4,8 @@
  * Date: <2016-0307>
  */
 
+#pragma once
+
 enum cell_type {CLEAR, MINE};
 enum cell_status {hidden, revealed, flagged};
 
@@ -25,8 +27,9 @@ struct minesweeper_board {
 };
 
 struct minesweeper_board generate_board(unsigned short rows,
-                   unsigned short cols, unsigned short num_mines);
+        unsigned short cols, unsigned short num_mines);
 
 void reveal_cell(minesweeper_board *self, unsigned short row,
-                unsigned short col);
-void flag_cell(minesweeper *self, unsigned short row, unsigned short col);
+        unsigned short col);
+void flag_cell(minesweeper_board *self, unsigned short row,
+        unsigned short col);
