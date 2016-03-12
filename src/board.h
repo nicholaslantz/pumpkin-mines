@@ -1,0 +1,44 @@
+/* Board - Create and manage the game board
+ *
+ * Author: Nicholas Lantz
+ * Date: <2016-0307>
+ */
+
+#pragma once
+
+enum cell_type {CLEAR, MINE};
+enum cell_status {HIDDEN, REVEALED, FLAGGED};
+
+struct cell {
+    enum cell_type type;
+    enum cell_status status;
+    unsigned short num_mine_neighbors;
+
+    //unsigned short row, col;
+};
+
+struct row {
+    struct cell *cells;
+};
+
+struct minesweeper_board {
+    unsigned short num_rows, num_cols;
+    struct row *rows;
+    unsigned short num_mines;
+};
+
+struct minesweeper_board *generate_board(unsigned short rows,
+        unsigned short cols, unsigned short num_mines);
+
+void reveal_cell(struct minesweeper_board *self, unsigned short row,
+        unsigned short col);
+void flag_cell(struct minesweeper_board *self, unsigned short row,
+        unsigned short col);
+
+void print_board_revealed(struct minesweeper_board *self);
+void print_board_hidden(struct minesweeper_board *self);
+
+char char_cell(struct cell *self, short should_hide);
+
+char char_cell_type(enum cell_type self);
+char char_cell_status(enum cell_status self);
