@@ -40,26 +40,33 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 
     struct cell *c = &(self->rows[row].cells[col]);
 
-    if (c->status == REVEALED) return self->state;
+    enum gamestate ret = UNDECIDED
+
+    if (c->status == REVEALED) {
+        ret = self->state;
         // return self->state because no change in gamestate
-    c->status = REVEALED;
-    if (c->type == MINE) return DEFEAT;
+    } else {
+        c->status = REVEALED;
+        if (c->type == MINE) {
+            ret = DEFEAT;
+        } else if (c->num_mine_neighbors == 0) {
+            // reveal 8 surrounding cells;
 
-    if (c->num_mine_neighbors == 0) {
-        // reveal 8 surrounding cells;
+            short i, j;
+            for(i = -1; i <= 1; i++) {
+                for(j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) {continue;}
+                    if (!in_bounds(self, row+i, col+j)) {continue;}
 
-        short i, j;
-        for(i = -1; i <= 1; i++) {
-            for(j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) {continue;}
-                if (!in_bounds(self, row+i, col+j)) {continue;}
-
-                reveal_cell(self, row+i, col+j);
+                    reveal_cell(self, row+i, col+j);
+                }
             }
+            ret = UNDECIDED;
         }
     }
 
-    return UNDECIDED;
+    self->state = ret;
+    return ret;
 }
 
 void flag_cell(struct minesweeper_board *self, unsigned short row,
@@ -74,7 +81,6 @@ void flag_cell(struct minesweeper_board *self, unsigned short row,
     } else if (c->status == HIDDEN) {
         c->status = FLAGGED;
     }
-
 }
 
 /* This function will not generate mines if the number of mines to place is
