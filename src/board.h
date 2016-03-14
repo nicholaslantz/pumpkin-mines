@@ -14,7 +14,7 @@ struct cell {
     enum cell_status status;
     unsigned short num_mine_neighbors;
 
-    //unsigned short row, col;
+    short should_highlight;
 };
 
 struct row {
@@ -42,3 +42,5 @@ char char_cell(struct cell *self, short should_hide);
 
 char char_cell_type(enum cell_type self);
 char char_cell_status(enum cell_status self);
+
+void delboard(struct minesweeper_board *self);

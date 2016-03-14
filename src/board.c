@@ -91,6 +91,7 @@ void populate_cell_data(struct minesweeper_board *self) {
         for(j = 0; j < self->num_cols; j++) {
             struct cell *c = ((self->rows + i)->cells + j);
             c->status = HIDDEN;
+            c->should_highlight = 0;
             get_num_mine_neighbors(c, self, i, j);
         }
     }
@@ -185,4 +186,15 @@ char char_cell_status(enum cell_status self) {
         default:
             return '!';
     }
+}
+
+void delboard(struct minesweeper_board *self) {
+    struct row *r;
+
+    for(r = self->rows + (self->num_rows - 1); r >= self->rows; r--) {
+        free(r->cells);
+    }
+
+    free (self->rows);
+    free (self);
 }
