@@ -8,6 +8,7 @@
 
 enum cell_type {CLEAR, MINE};
 enum cell_status {HIDDEN, REVEALED, FLAGGED};
+enum gamestate {NONE, UNDECIDED, DEFEAT, VICTORY};
 
 struct cell {
     enum cell_type type;
@@ -25,6 +26,8 @@ struct minesweeper_board {
     unsigned short num_rows, num_cols;
     struct row *rows;
     unsigned short num_mines;
+
+    enum gamestate state;
 };
 
 struct minesweeper_board *generate_board(unsigned short rows,

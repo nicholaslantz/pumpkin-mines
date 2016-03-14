@@ -31,12 +31,36 @@ struct minesweeper_board *generate_board(unsigned short rows,
     generate_mines(board);
     populate_cell_data(board);
 
+    board->state = UNDECIDED;
+
     return board;
 }
 
-void reveal_cell(struct minesweeper_board *self, unsigned short row,
+enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
 
+    cell *c = self->rows[row].cells[col];
+
+    if (c->status == REVEALED) return self->state;
+        // return self->state because no change in gamestate
+    c->status = REVEALED;
+    if (c->cell_type == MINE) return DEFEAT;
+
+    if (c->num_mine_neighbors == 0) {
+        // reveal 8 surrounding cells;
+
+        static short i, j;
+        for(i = -1; i <= 1; i++) {
+            for(j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                if (!in_bounds(board, row+i, col+j)) continue;
+
+                reveal_cell(self, row+i; col+j);
+            }
+        }
+    }
+
+    return UNDECIDED;
 }
 
 void flag_cell(struct minesweeper_board *self, unsigned short row,
