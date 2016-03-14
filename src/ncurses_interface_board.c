@@ -39,11 +39,11 @@ void draw_mine_row(struct board_window *self, struct row *r) {
         if (c->should_highlight) {
             wprintw(self->win, "%s ", "│");
             wattron(self->win, A_STANDOUT);
-            waddch(self->win, char_cell(c, 0));
+            waddch(self->win, char_cell(c, 1));
             wattroff(self->win, A_STANDOUT);
             waddch(self->win, ' ');
         } else {
-            wprintw(self->win, "%s %c ", "│", char_cell(c, 0));
+            wprintw(self->win, "%s %c ", "│", char_cell(c, 1));
         }
     }
 
@@ -97,4 +97,8 @@ void shift_cursor(struct board_window *self, direction d) {
             if (self->user_x > 0) self->user_x--;
             break;
     }
+}
+
+void reveal(struct board_window *self) {
+    reveal_cell(self->board, self->user_y, self->user_x);
 }

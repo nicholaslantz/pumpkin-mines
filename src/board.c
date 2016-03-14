@@ -39,12 +39,12 @@ struct minesweeper_board *generate_board(unsigned short rows,
 enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
 
-    cell *c = self->rows[row].cells[col];
+    struct cell *c = &(self->rows[row].cells[col]);
 
     if (c->status == REVEALED) return self->state;
         // return self->state because no change in gamestate
     c->status = REVEALED;
-    if (c->cell_type == MINE) return DEFEAT;
+    if (c->type == MINE) return DEFEAT;
 
     if (c->num_mine_neighbors == 0) {
         // reveal 8 surrounding cells;
@@ -53,9 +53,9 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         for(i = -1; i <= 1; i++) {
             for(j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) continue;
-                if (!in_bounds(board, row+i, col+j)) continue;
+                if (!in_bounds(self, row+i, col+j)) continue;
 
-                reveal_cell(self, row+i; col+j);
+                reveal_cell(self, row+i, col+j);
             }
         }
     }
@@ -179,11 +179,12 @@ void print_board_revealed(struct minesweeper_board *self) {
 char char_cell(struct cell *self, short should_hide) {
     if (should_hide) {
         if (self->status == HIDDEN) return ' ';
-    } else {
-        if (self->status == FLAGGED) return 'F';
-        if (self->type == MINE) return 'M';
-        if (self->num_mine_neighbors == 0) return ' ';
     }
+
+    if (self->status == FLAGGED) return 'F';
+    if (self->type == MINE) return 'M';
+    if (self->num_mine_neighbors == 0) return ' ';
+    
 
     return (char) (self->num_mine_neighbors + ASCII_OFFSET);
 }

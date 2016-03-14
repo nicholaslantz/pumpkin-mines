@@ -33,7 +33,7 @@ struct minesweeper_board {
 struct minesweeper_board *generate_board(unsigned short rows,
         unsigned short cols, unsigned short num_mines);
 
-void reveal_cell(struct minesweeper_board *self, unsigned short row,
+enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
 void flag_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
