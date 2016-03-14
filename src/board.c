@@ -3,6 +3,7 @@
 #include "board.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 const static unsigned short ASCII_OFFSET = 48;
 
@@ -49,11 +50,11 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
     if (c->num_mine_neighbors == 0) {
         // reveal 8 surrounding cells;
 
-        static short i, j;
+        short i, j;
         for(i = -1; i <= 1; i++) {
             for(j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) continue;
-                if (!in_bounds(self, row+i, col+j)) continue;
+                if (i == 0 && j == 0) {continue;}
+                if (!in_bounds(self, row+i, col+j)) {continue;}
 
                 reveal_cell(self, row+i, col+j);
             }
@@ -65,7 +66,16 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 
 void flag_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
+    struct cell *c = &(self->rows[row].cells[col]);
 
+    if (c->status == REVEALED) {
+        // do nothing
+        return;
+    } else if (c->status == FLAGGED) {
+        c->status = HIDDEN;
+    } else if (c->status == HIDDEN) {
+        c->status = FLAGGED;
+    }
 
 }
 
@@ -183,10 +193,49 @@ char char_cell(struct cell *self, short should_hide) {
 
     if (self->status == FLAGGED) return 'F';
     if (self->type == MINE) return 'M';
-    if (self->num_mine_neighbors == 0) return ' ';
+    if (self->num_mine_neighbors == 0) return '.';
     
 
     return (char) (self->num_mine_neighbors + ASCII_OFFSET);
+}
+
+char *str_cell_status(struct cell *self) {
+    switch(self->status) {
+        case HIDDEN:
+            return strdup("Hidden");
+        case REVEALED:
+            return strdup("REVEALED");
+        case FLAGGED:
+            return strdup("FLAGGED");
+        default:
+            return strdup("ERROR");
+    }
+}
+
+char *str_cell_type(struct cell *self) {
+    switch (self->type) {
+        case CLEAR:
+            return strdup("CLEAR");
+        case MINE:
+            return strdup("MINE");
+        default:
+            return strdup("ERROR");
+    }
+}
+
+char *str_gamestate(struct minesweeper_board *self) {
+    switch (self->state) {
+        case NONE:
+            return strdup("NONE");
+        case UNDECIDED:
+            return strdup("UNDECIDED");
+        case DEFEAT:
+            return strdup("DEFEAT");
+        case VICTORY:
+            return strdup("VICTORY");
+        default:
+            return strdup("ERROR");
+    }
 }
 
 char char_cell_type(enum cell_type self) {

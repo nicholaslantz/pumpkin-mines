@@ -42,6 +42,9 @@ void print_board_revealed(struct minesweeper_board *self);
 void print_board_hidden(struct minesweeper_board *self);
 
 char char_cell(struct cell *self, short should_hide);
+char *str_cell_status(struct cell *self);
+char *str_cell_type(struct cell *self);
+char *str_gamestate(struct minesweeper_board *self);
 
 char char_cell_type(enum cell_type self);
 char char_cell_status(enum cell_status self);

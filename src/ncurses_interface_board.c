@@ -11,8 +11,10 @@ void draw_bottom_row(struct board_window *self);
 void draw_board(struct board_window *self) {
     wclear(self->win);
 
-    self->board->rows[self->user_y].cells[self->user_x].should_highlight = 1;
+    struct cell *c = &(self->board->rows[self->user_y].cells[self->user_x]);
     struct row *r;
+
+    c->should_highlight = 1;
 
     draw_top_row(self);
 
@@ -24,12 +26,18 @@ void draw_board(struct board_window *self) {
     draw_mine_row(self, self->board->rows + (self->board->num_rows-1));
     draw_bottom_row(self);
 
-    wprintw(self->win, "(%d, %d)", self->user_x, self->user_y);
+    // need to free memory over here
+    wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
+    wprintw(self->win, "Cell Type: %s\n", str_cell_type(c));
+    wprintw(self->win, "Cell Status: %s\n", str_cell_status(c));
+    wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
+    wprintw(self->win, "Mine Nieghbors: %d", c->num_mine_neighbors);
+
 
     wrefresh(self->win);
     refresh();
 
-    self->board->rows[self->user_y].cells[self->user_x].should_highlight = 0;
+    c->should_highlight = 0;
 }
 
 void draw_mine_row(struct board_window *self, struct row *r) {
@@ -101,4 +109,8 @@ void shift_cursor(struct board_window *self, direction d) {
 
 void reveal(struct board_window *self) {
     reveal_cell(self->board, self->user_y, self->user_x);
+}
+
+void flag(struct board_window *self) {
+    flag_cell(self->board, self->user_y, self->user_x);
 }

@@ -32,3 +32,4 @@ void shift_cursor(struct board_window *self, direction d);
 /* Will reveal the location that the player's cursor is under
  */
 void reveal(struct board_window *self);
+void flag(struct board_window *self);

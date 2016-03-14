@@ -42,6 +42,11 @@ int main(int argc, char **argv) {
             case KEY_ENTER:
             case 'e':
                 reveal(&boardwin);
+                break;
+            case ' ':
+            case 'f':
+                flag(&boardwin);
+                break;
         }
 
         draw_board(&boardwin);
