@@ -1,6 +1,7 @@
 
 
 #include "ncurses_interface.h"
+#
 
 
 void draw_mine_row(struct board_window *self, struct row *r);
@@ -21,7 +22,7 @@ void draw_board(struct board_window *self) {
     for(r = self->board->rows;
             r < self->board->rows + (self->board->num_rows-1); r++) {
         draw_mine_row(self, r);
-        draw_between_row(self);
+        //draw_between_row(self);
     }
     draw_mine_row(self, self->board->rows + (self->board->num_rows-1));
     draw_bottom_row(self);
@@ -33,6 +34,7 @@ void draw_board(struct board_window *self) {
     wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
     wprintw(self->win, "Mine Nieghbors: %d", c->num_mine_neighbors);
 
+    
 
     wrefresh(self->win);
     refresh();
@@ -40,23 +42,98 @@ void draw_board(struct board_window *self) {
     c->should_highlight = 0;
 }
 
+void print_cell(struct board_window *self, struct cell *c);
+void print_revealed_cell(struct board_window *self, struct cell *c);
+
 void draw_mine_row(struct board_window *self, struct row *r) {
     
     struct cell *c;
+    wprintw(self->win, "%s", "│");
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
         if (c->should_highlight) {
-            wprintw(self->win, "%s ", "│");
+            //wprintw(self->win, "%s ", "│");
             wattron(self->win, A_STANDOUT);
             waddch(self->win, char_cell(c, 1));
             wattroff(self->win, A_STANDOUT);
-            waddch(self->win, ' ');
+            //waddch(self->win, ' ');
         } else {
-            wprintw(self->win, "%s %c ", "│", char_cell(c, 1));
+            // Add custom definition for printing cells.
+            //wprintw(self->win, "%s ", "│");
+            print_cell(self, c);
+            //waddch(self->win, ' ');
         }
     }
 
     wprintw(self->win, "%s\n", "│");
 }
+
+void print_cell(struct board_window *self, struct cell *c) {
+    switch (c->status) {
+        case HIDDEN:
+            wprintw(self->win, ".");
+            break;
+        case REVEALED:
+            print_revealed_cell(self, c);
+            break;
+        case FLAGGED:
+            wprintw(self->win, "F");
+            break;
+    }
+}
+
+void print_revealed_cell(struct board_window *self, struct cell *c) {
+
+    char ch = c->num_mine_neighbors + ASCII_OFFSET;
+    switch (c->num_mine_neighbors) {
+        case 0:
+            //wattron(self->win, A_STANDOUT);
+            waddch(self->win, '#');
+            //wattroff(self->win, A_STANDOUT);
+            break;
+        case 1:
+            wattron(self->win, COLOR_PAIR(1));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(1));
+            break;
+        case 2:
+            wattron(self->win, COLOR_PAIR(2));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(2));
+            break;
+        case 3:
+            wattron(self->win, COLOR_PAIR(3));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(3));
+            break;
+        case 4:
+            wattron(self->win, COLOR_PAIR(4));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(4));
+            break;
+        case 5:
+            wattron(self->win, COLOR_PAIR(5));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(5));
+            break;
+        case 6:
+            wattron(self->win, COLOR_PAIR(6));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(6));
+            break;
+        case 7:
+            wattron(self->win, COLOR_PAIR(7));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(7));
+            break;
+        case 8:
+            wattron(self->win, COLOR_PAIR(8));
+            waddch(self->win, ch);
+            wattroff(self->win, COLOR_PAIR(8));
+            break;
+    }
+
+}
+
 void draw_between_row(struct board_window *self) {
     waddstr(self->win, "├");
 
@@ -68,7 +145,7 @@ void draw_between_row(struct board_window *self) {
     waddstr(self->win, "───┤\n");
 }
 void draw_top_row(struct board_window *self) {
-    unsigned int num_chars_to_print = (self->board->num_cols * 4) - 1;
+    unsigned int num_chars_to_print = (self->board->num_cols);
     waddstr(self->win, "┌");
 
     unsigned int i;
@@ -79,7 +156,7 @@ void draw_top_row(struct board_window *self) {
     waddstr(self->win, "┐\n");
 }
 void draw_bottom_row(struct board_window *self) {
-    unsigned int num_chars_to_print = (self->board->num_cols * 4) - 1;
+    unsigned int num_chars_to_print = (self->board->num_cols);
     waddstr(self->win, "└");
 
     unsigned int i;

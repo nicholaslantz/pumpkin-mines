@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-const static unsigned short ASCII_OFFSET = 48;
-
 void generate_mines(struct minesweeper_board *self);
 short place_mine(struct minesweeper_board *self);
 void get_num_mine_neighbors(struct cell *self, struct minesweeper_board *board,

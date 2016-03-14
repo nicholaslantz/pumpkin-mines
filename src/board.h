@@ -6,6 +6,8 @@
 
 #pragma once
 
+const static unsigned short ASCII_OFFSET = 48;
+
 enum cell_type {CLEAR, MINE};
 enum cell_status {HIDDEN, REVEALED, FLAGGED};
 enum gamestate {NONE, UNDECIDED, DEFEAT, VICTORY};
