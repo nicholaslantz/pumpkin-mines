@@ -25,19 +25,19 @@ int main(int argc, char **argv) {
         switch (ch) {
             case KEY_UP:
             case 'w':
-                boardwin.user_y--;
+                shift_cursor(&boardwin, UP);
                 break;
             case KEY_DOWN:
             case 's':
-                boardwin.user_y++;
+                shift_cursor(&boardwin, DOWN);
                 break;
             case KEY_LEFT:
             case 'a':
-                boardwin.user_x--;
+                shift_cursor(&boardwin, LEFT);
                 break;
             case KEY_RIGHT:
             case 'd':
-                boardwin.user_x++;
+                shift_cursor(&boardwin, RIGHT);
                 break;
         }
 

@@ -4,6 +4,8 @@
 #include <ncurses.h>
 #include "board.h"
 
+typedef enum {UP, DOWN, LEFT, RIGHT} direction;
+
 struct board_window {
     WINDOW *win;
     int startx, starty, width, height;
@@ -24,3 +26,5 @@ void setup();
 
 void draw_board();
 void draw_info();
+
+void shift_cursor(struct board_window *self, direction d);
