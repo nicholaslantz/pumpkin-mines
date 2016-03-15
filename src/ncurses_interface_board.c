@@ -34,10 +34,7 @@ void draw_board(struct board_window *self) {
     wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
     wprintw(self->win, "Mine Nieghbors: %d", c->num_mine_neighbors);
 
-    
-
     wrefresh(self->win);
-    refresh();
 
     c->should_highlight = 0;
 }
@@ -196,6 +193,17 @@ void reveal(struct board_window *self) {
         // good to go
     } else {
         // an error occurred
+    }
+
+    switch (result) {
+        case:
+            break
+        case:
+            break
+        case:
+            break
+        case:
+            break
     }
 }
 
