@@ -35,7 +35,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
 
     infowin->sw = (struct stopwatch *) malloc(sizeof(struct stopwatch));
     infowin->board = board;
-    infowin->sw->elapsed_time.tv_nsec = 0; 
+    infowin->sw->elapsed_time.tv_nsec = -1; 
 
     if (has_colors() == 0) {
         // very elegant solution to the problem
@@ -62,7 +62,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
 
 void draw_info(struct info_window *self) {
     werase(self->win);
-    if (self->sw->elapsed_time.tv_nsec != 0) {
+    if (self->sw->elapsed_time.tv_nsec != -1) {
         update_clock(self->sw);
     }
 

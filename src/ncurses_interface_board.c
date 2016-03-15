@@ -191,6 +191,7 @@ void reveal(struct board_window *self) {
 
     if (self->infowin->sw->elapsed_time.tv_nsec == -1) {
         start_clock(self->infowin->sw);
+        update_clock(self->infowin->sw);
     }
 
     if (result == DEFEAT) {
