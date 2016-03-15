@@ -38,8 +38,15 @@ struct minesweeper_board {
 
 };
 
+/* This function will NOT place mines, call it to prepare the board for play.
+ * Revealing a single mine will cause the rest of the mines to be generated, no
+ * other action is required of the caller.
+ */
 struct minesweeper_board *generate_board(unsigned short rows,
         unsigned short cols, unsigned short num_mines);
+
+void generate_mines(struct minesweeper_board *self, unsigned short row,
+        unsigned short col);
 
 enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col);

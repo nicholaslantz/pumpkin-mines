@@ -4,9 +4,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
-void generate_mines(struct minesweeper_board *self);
-short place_mine(struct minesweeper_board *self);
+void generate_mines(struct minesweeper_board *self, unsigned short row,
+        unsigned short col);
+short place_mine(struct minesweeper_board *self, unsigned short row,
+        unsigned short col);
 void get_num_mine_neighbors(struct cell *self, struct minesweeper_board *board,
         short row, short col);
 short in_bounds(struct minesweeper_board *board, short row, short col);
@@ -27,9 +30,6 @@ struct minesweeper_board *generate_board(unsigned short rows,
         r->cells = (struct cell *) malloc(sizeof(struct cell) * board->num_cols);
     }
 
-    generate_mines(board);
-    populate_cell_data(board);
-
     board->state = UNDECIDED;
     board->num_tiles = board->num_cols * board->num_rows;
     board->num_revealed = 0;
@@ -39,6 +39,12 @@ struct minesweeper_board *generate_board(unsigned short rows,
 
 enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
+
+    if (self->num_revealed == 0) {
+        // first reveal implies generate mines
+        generate_mines(self, row, col);
+        populate_cell_data(self);
+    }
 
     struct cell *c = &(self->rows[row].cells[col]);
 
@@ -94,9 +100,10 @@ void flag_cell(struct minesweeper_board *self, unsigned short row,
  * greater than number of tiles on board, it'll print an error message if the
  * caller tries to do that cause it's nice */
 
-void generate_mines(struct minesweeper_board *self) {
+void generate_mines(struct minesweeper_board *self, unsigned short row,
+        unsigned short col) {
     // naive implementation for now.
-    if (self->num_mines > self->num_rows * self->num_cols) {
+    if (self->num_mines > self->num_tiles) {
         fprintf(stderr, "Error: number of mines to place exceeds "
                  "total number of tiles\n");
         return;
@@ -105,7 +112,7 @@ void generate_mines(struct minesweeper_board *self) {
     unsigned short mines_to_place = self->num_mines;
 
     while (mines_to_place > 0) {
-        if (place_mine(self)) {
+        if (place_mine(self, row, col)) {
             // successfully place mine
             mines_to_place--;
         } else {
@@ -114,19 +121,34 @@ void generate_mines(struct minesweeper_board *self) {
     }
 }
 
+short is_close(struct minesweeper_board *self, unsigned short row,
+        unsigned short col, unsigned short newrow, unsigned short newcol);
 
 /* Attempts to place a mine, returns 1 on success, 0 on failure
  */
-short place_mine(struct minesweeper_board *self) {
-    short row = rand() % self->num_rows;
-    short col = rand() % self->num_cols;
+short place_mine(struct minesweeper_board *self, unsigned short row,
+        unsigned short col) {
+    unsigned short newrow = rand() % self->num_rows;
+    unsigned short newcol = rand() % self->num_cols;
 
     //if (self->rows[row]->cells[col].type == MINE) {
-    if (self->rows[row].cells[col].type == MINE) return 0;
-    else {
-        self->rows[row].cells[col].type = MINE;
+    if (self->rows[newrow].cells[newcol].type == MINE) {
+        return 0;
+    } else if (is_close(self, row, col, newrow, newcol)) {
+        return 0;
+    } else {
+        self->rows[newrow].cells[newcol].type = MINE;
         return 1;
     }
+}
+
+short is_close(struct minesweeper_board *self, unsigned short row,
+        unsigned short col, unsigned short newrow, unsigned short newcol) {
+
+    signed int rowint = row; signed int colint = col;
+    signed int newrowint = newrow; signed int newcolint = newcol;
+
+    return (abs(rowint - newrowint) < 2 && abs(colint - newcolint) < 3);
 }
 
 void populate_cell_data(struct minesweeper_board *self) {

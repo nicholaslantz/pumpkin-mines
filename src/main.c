@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     setlocale(LC_ALL, "en_US.UTF-8");
 
-    struct minesweeper_board *game_board = generate_board(16, 30, 15);
+    struct minesweeper_board *game_board = generate_board(16, 30, 99);
 
     struct board_window boardwin;
     struct info_window infowin;
