@@ -3,14 +3,18 @@
 #pragma once
 #include <ncurses.h>
 #include "board.h"
+#include "stopwatch.h"
 
 typedef enum {UP, DOWN, LEFT, RIGHT} direction;
+
+struct info_window;
 
 struct board_window {
     WINDOW *win;
     int startx, starty, width, height;
 
     struct minesweeper_board *board;
+    struct info_window *infowin;
 
     int user_x, user_y;
 };
@@ -19,7 +23,8 @@ struct info_window {
     WINDOW *win;
     int startx, starty, width, height;
 
-    //information *info; eventually
+    struct stopwatch *sw;
+    struct minesweeper_board *board;
 };
 
 void setup();

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
+#include <unistd.h>
 
 int main(int argc, char **argv) {
     srand(time(NULL));
@@ -19,6 +20,44 @@ int main(int argc, char **argv) {
     setup(&boardwin, &infowin, game_board);
 
     int ch;
+    while (1) {
+        if ((ch = getch()) > 0) {
+            // process key
+            switch (ch) {
+                case KEY_UP:
+                case 'w':
+                    shift_cursor(&boardwin, UP);
+                    break;
+                case KEY_DOWN:
+                case 's':
+                    shift_cursor(&boardwin, DOWN);
+                    break;
+                case KEY_LEFT:
+                case 'a':
+                    shift_cursor(&boardwin, LEFT);
+                    break;
+                case KEY_RIGHT:
+                case 'd':
+                    shift_cursor(&boardwin, RIGHT);
+                    break;
+                case KEY_ENTER:
+                case 'e':
+                    reveal(&boardwin);
+                    break;
+                case ' ':
+                case 'f':
+                    flag(&boardwin);
+                    break;
+                case 'q':
+                    goto end;
+            }
+            draw_board(&boardwin);
+        }
+
+        draw_info(&infowin);
+        usleep(20000);
+    }
+    /*
     while ((ch = getch()) != 'q') {
         //refresh();
 
@@ -52,6 +91,8 @@ int main(int argc, char **argv) {
         draw_board(&boardwin);
         draw_info(&infowin);
     }
+    */
+    end:
 
     delboard(game_board);
 

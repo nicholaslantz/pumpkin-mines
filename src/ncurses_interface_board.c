@@ -10,7 +10,7 @@ void draw_top_row(struct board_window *self);
 void draw_bottom_row(struct board_window *self);
 
 void draw_board(struct board_window *self) {
-    wclear(self->win);
+    werase(self->win);
 
     struct cell *c = &(self->board->rows[self->user_y].cells[self->user_x]);
     struct row *r;
@@ -49,9 +49,9 @@ void draw_mine_row(struct board_window *self, struct row *r) {
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
         if (c->should_highlight) {
             //wprintw(self->win, "%s ", "│");
-            wattron(self->win, A_STANDOUT);
+            wattron(self->win, A_BLINK);
             waddch(self->win, char_cell(c, 1));
-            wattroff(self->win, A_STANDOUT);
+            wattroff(self->win, A_BLINK);
             //waddch(self->win, ' ');
         } else {
             // Add custom definition for printing cells.
@@ -67,13 +67,17 @@ void draw_mine_row(struct board_window *self, struct row *r) {
 void print_cell(struct board_window *self, struct cell *c) {
     switch (c->status) {
         case HIDDEN:
-            wprintw(self->win, ".");
+            wattron(self->win, COLOR_PAIR(10));
+            wprintw(self->win, " ");
+            wattroff(self->win, COLOR_PAIR(10));
             break;
         case REVEALED:
             print_revealed_cell(self, c);
             break;
         case FLAGGED:
+            wattron(self->win, COLOR_PAIR(3));
             wprintw(self->win, "F");
+            wattroff(self->win, COLOR_PAIR(3));
             break;
     }
 }
@@ -84,7 +88,7 @@ void print_revealed_cell(struct board_window *self, struct cell *c) {
     switch (c->num_mine_neighbors) {
         case 0:
             //wattron(self->win, A_STANDOUT);
-            waddch(self->win, '#');
+            waddch(self->win, ' ');
             //wattroff(self->win, A_STANDOUT);
             break;
         case 1:
@@ -183,7 +187,11 @@ void shift_cursor(struct board_window *self, direction d) {
 
 void reveal(struct board_window *self) {
     enum gamestate result =
-        reveal_cell(self->board, self->user_y, self->user_x);
+        reveal_cell(self->board, self->user_y, self->user_x);\
+
+    if (self->infowin->sw->elapsed_time.tv_nsec == -1) {
+        start_clock(self->infowin->sw);
+    }
 
     if (result == DEFEAT) {
         // Do something cool and reset
@@ -195,16 +203,17 @@ void reveal(struct board_window *self) {
         // an error occurred
     }
 
+    /*
     switch (result) {
         case:
-            break
+            break;
         case:
-            break
+            break;
         case:
-            break
+            break;
         case:
-            break
-    }
+            break;
+    }*/
 }
 
 void flag(struct board_window *self) {
