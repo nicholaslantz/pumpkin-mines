@@ -185,7 +185,18 @@ void shift_cursor(struct board_window *self, direction d) {
 }
 
 void reveal(struct board_window *self) {
-    reveal_cell(self->board, self->user_y, self->user_x);
+    enum gamestate result =
+        reveal_cell(self->board, self->user_y, self->user_x);
+
+    if (result == DEFEAT) {
+        // Do something cool and reset
+    } else if (result == VICTORY) {
+        // do something cool and reset
+    } else if (result == UNDECIDED) {
+        // good to go
+    } else {
+        // an error occurred
+    }
 }
 
 void flag(struct board_window *self) {
