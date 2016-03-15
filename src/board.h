@@ -30,6 +30,12 @@ struct minesweeper_board {
     unsigned short num_mines;
 
     enum gamestate state;
+
+    // below shorts make it easier to check if the player won each time
+    // they reveal a tile
+    unsigned short num_tiles;
+    unsigned short num_revealed;
+
 };
 
 struct minesweeper_board *generate_board(unsigned short rows,

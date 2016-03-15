@@ -31,6 +31,8 @@ struct minesweeper_board *generate_board(unsigned short rows,
     populate_cell_data(board);
 
     board->state = UNDECIDED;
+    board->num_tiles = board->num_cols * board->num_rows;
+    board->num_revealed = 0;
 
     return board;
 }
@@ -40,13 +42,14 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 
     struct cell *c = &(self->rows[row].cells[col]);
 
-    enum gamestate ret = UNDECIDED
+    enum gamestate ret = UNDECIDED;
 
     if (c->status == REVEALED) {
         ret = self->state;
         // return self->state because no change in gamestate
     } else {
         c->status = REVEALED;
+        self->num_revealed++;
         if (c->type == MINE) {
             ret = DEFEAT;
         } else if (c->num_mine_neighbors == 0) {
@@ -63,6 +66,10 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
             }
             ret = UNDECIDED;
         }
+    }
+
+    if (self->num_tiles - self->num_revealed - self->num_mines == 0) {
+        ret = VICTORY;
     }
 
     self->state = ret;
