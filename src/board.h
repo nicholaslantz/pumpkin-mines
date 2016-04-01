@@ -31,8 +31,9 @@ struct minesweeper_board {
 
     enum gamestate state;
 
-    // below shorts make it easier to check if the player won each time
+    // short below make it easier to check if the player won each time
     // they reveal a tile
+    unsigned short num_flagged;
     unsigned short num_tiles;
     unsigned short num_revealed;
 

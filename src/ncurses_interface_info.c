@@ -66,7 +66,10 @@ void draw_info(struct info_window *self) {
         update_clock(self->sw);
     }
 
-    wprintw(self->win, "%d", get_time_print(self->sw));
+    wprintw(self->win, "[%d] Marked: %d/%d",
+            get_time_print(self->sw),
+            self->board->num_flagged,
+            self->board->num_mines);
 
     wrefresh(self->win);
 }

@@ -160,8 +160,10 @@ void reveal(struct board_window *self) {
     case UNDECIDED:
         break;
     case DEFEAT:
+        stop_clock(self->infowin->sw);
         break;
     case VICTORY:
+        stop_clock(self->infowin->sw);
         break;
     default:
         break;

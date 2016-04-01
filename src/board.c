@@ -31,6 +31,7 @@ struct minesweeper_board *generate_board(unsigned short rows,
     }
 
     board->state = UNDECIDED;
+    board->num_flagged = 0;
     board->num_tiles = board->num_cols * board->num_rows;
     board->num_revealed = 0;
 
@@ -90,8 +91,10 @@ void flag_cell(struct minesweeper_board *self, unsigned short row,
         // do nothing
         return;
     } else if (c->status == FLAGGED) {
+        self->num_flagged--;
         c->status = HIDDEN;
     } else if (c->status == HIDDEN) {
+        self->num_flagged++;
         c->status = FLAGGED;
     }
 }
