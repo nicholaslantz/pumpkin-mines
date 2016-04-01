@@ -31,7 +31,7 @@ void draw_board(struct board_window *self) {
         wprintw(self->win, "Cell Type: %s\n", str_cell_type(cursor));
         wprintw(self->win, "Cell Status: %s\n", str_cell_status(cursor));
         wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
-        wprintw(self->win, "Mine Nieghbors: %d", cursor->num_mine_neighbors);
+        wprintw(self->win, "Mine Neighbors: %d", cursor->num_mine_neighbors);
     }
 
     wrefresh(self->win);
