@@ -17,6 +17,7 @@ struct board_window {
     struct info_window *infowin;
 
     int user_x, user_y;
+    short debug;
 };
 
 struct info_window {

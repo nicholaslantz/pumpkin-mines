@@ -1,8 +1,6 @@
 
 
 #include "ncurses_interface.h"
-#
-
 
 void draw_mine_row(struct board_window *self, struct row *r);
 void draw_between_row(struct board_window *self);
@@ -27,12 +25,14 @@ void draw_board(struct board_window *self) {
     draw_mine_row(self, self->board->rows + (self->board->num_rows-1));
     draw_bottom_row(self);
 
-    // need to free memory over here
-    wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
-    wprintw(self->win, "Cell Type: %s\n", str_cell_type(cursor));
-    wprintw(self->win, "Cell Status: %s\n", str_cell_status(cursor));
-    wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
-    wprintw(self->win, "Mine Nieghbors: %d", cursor->num_mine_neighbors);
+    if (self->debug) {
+        // need to free memory over here
+        wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
+        wprintw(self->win, "Cell Type: %s\n", str_cell_type(cursor));
+        wprintw(self->win, "Cell Status: %s\n", str_cell_status(cursor));
+        wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
+        wprintw(self->win, "Mine Nieghbors: %d", cursor->num_mine_neighbors);
+    }
 
     wrefresh(self->win);
 
@@ -48,16 +48,11 @@ void draw_mine_row(struct board_window *self, struct row *r) {
     wprintw(self->win, "%s", "│");
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
         if (c->should_highlight) {
-            //wprintw(self->win, "%s ", "│");
             wattron(self->win, A_BLINK);
             waddch(self->win, char_cell(c, 1));
             wattroff(self->win, A_BLINK);
-            //waddch(self->win, ' ');
         } else {
-            // Add custom definition for printing cells.
-            //wprintw(self->win, "%s ", "│");
             print_cell(self, c);
-            //waddch(self->win, ' ');
         }
     }
 
@@ -161,27 +156,16 @@ void reveal(struct board_window *self) {
         update_clock(self->infowin->sw);
     }
 
-    if (result == DEFEAT) {
-        // Do something cool and reset
-    } else if (result == VICTORY) {
-        // do something cool and reset
-    } else if (result == UNDECIDED) {
-        // good to go
-    } else {
-        // an error occurred
-    }
-
-    /*
     switch (result) {
-        case:
-            break;
-        case:
-            break;
-        case:
-            break;
-        case:
-            break;
-    }*/
+    case UNDECIDED:
+        break;
+    case DEFEAT:
+        break;
+    case VICTORY:
+        break;
+    default:
+        break;
+    }
 }
 
 void flag(struct board_window *self) {
