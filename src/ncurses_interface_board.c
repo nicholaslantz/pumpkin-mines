@@ -93,45 +93,10 @@ void print_revealed_cell(struct board_window *self, struct cell *c) {
             waddch(self->win, ' ');
             //wattroff(self->win, A_STANDOUT);
             break;
-        case 1:
-            wattron(self->win, COLOR_PAIR(1));
+        default:
+            wattron(self->win, COLOR_PAIR(c->num_mine_neighbors));
             waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(1));
-            break;
-        case 2:
-            wattron(self->win, COLOR_PAIR(2));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(2));
-            break;
-        case 3:
-            wattron(self->win, COLOR_PAIR(3));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(3));
-            break;
-        case 4:
-            wattron(self->win, COLOR_PAIR(4));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(4));
-            break;
-        case 5:
-            wattron(self->win, COLOR_PAIR(5));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(5));
-            break;
-        case 6:
-            wattron(self->win, COLOR_PAIR(6));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(6));
-            break;
-        case 7:
-            wattron(self->win, COLOR_PAIR(7));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(7));
-            break;
-        case 8:
-            wattron(self->win, COLOR_PAIR(8));
-            waddch(self->win, ch);
-            wattroff(self->win, COLOR_PAIR(8));
+            wattroff(self->win, COLOR_PAIR(c->num_mine_neighbors));
             break;
     }
 
