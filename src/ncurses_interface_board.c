@@ -12,10 +12,10 @@ void draw_bottom_row(struct board_window *self);
 void draw_board(struct board_window *self) {
     werase(self->win);
 
-    struct cell *c = &(self->board->rows[self->user_y].cells[self->user_x]);
+    struct cell *cursor = &(self->board->rows[self->user_y].cells[self->user_x]);
     struct row *r;
 
-    c->should_highlight = 1;
+    cursor->should_highlight = 1;
 
     draw_top_row(self);
 
@@ -29,14 +29,14 @@ void draw_board(struct board_window *self) {
 
     // need to free memory over here
     wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
-    wprintw(self->win, "Cell Type: %s\n", str_cell_type(c));
-    wprintw(self->win, "Cell Status: %s\n", str_cell_status(c));
+    wprintw(self->win, "Cell Type: %s\n", str_cell_type(cursor));
+    wprintw(self->win, "Cell Status: %s\n", str_cell_status(cursor));
     wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
-    wprintw(self->win, "Mine Nieghbors: %d", c->num_mine_neighbors);
+    wprintw(self->win, "Mine Nieghbors: %d", cursor->num_mine_neighbors);
 
     wrefresh(self->win);
 
-    c->should_highlight = 0;
+    cursor->should_highlight = 0;
 }
 
 void print_cell(struct board_window *self, struct cell *c);
@@ -75,9 +75,11 @@ void print_cell(struct board_window *self, struct cell *c) {
             print_revealed_cell(self, c);
             break;
         case FLAGGED:
+            wattron(self->win, A_STANDOUT);
             wattron(self->win, COLOR_PAIR(3));
             wprintw(self->win, "F");
             wattroff(self->win, COLOR_PAIR(3));
+            wattroff(self->win, A_STANDOUT);
             break;
     }
 }
