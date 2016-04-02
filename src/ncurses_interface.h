@@ -19,9 +19,6 @@ struct board_window {
 
     int user_x, user_y;
     short debug;
-
-    draw_status draw_stat;
-
 };
 
 struct info_window {

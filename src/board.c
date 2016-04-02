@@ -58,6 +58,37 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         break;
     case REVEALED:
         // potential chord
+        ;
+        if (c->num_mine_neighbors == 0) {
+            ret = self->state;
+            break;
+        }
+
+        short i, j;
+        short num_flagged = 0;
+        for(i = -1; i <= 1; i++) {
+            for(j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                if (!in_bounds(self, row+i, col+j)) continue;
+
+                if (self->rows[row+i].cells[col+j].status == FLAGGED)
+                    num_flagged++;
+            }
+        }
+
+        if (num_flagged == c->num_mine_neighbors) {
+            // valid chord
+            for(i = -1; i <= 1; i++) {
+                for(j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) continue;
+                    if (!in_bounds(self, row+i, col+j)) continue;
+                    
+                    if (self->rows[row+i].cells[col+j].status == HIDDEN)
+                        reveal_cell(self, row+i, col+j);
+                }
+            }
+        }
+        ret = self->state;
         break;
     default:
         c->status = REVEALED;
@@ -70,8 +101,8 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
             short i, j;
             for(i = -1; i <= 1; i++) {
                 for(j = -1; j <= 1; j++) {
-                    if (i == 0 && j == 0) {continue;}
-                    if (!in_bounds(self, row+i, col+j)) {continue;}
+                    if (i == 0 && j == 0) continue;
+                    if (!in_bounds(self, row+i, col+j)) continue;
 
                     reveal_cell(self, row+i, col+j);
                 }
