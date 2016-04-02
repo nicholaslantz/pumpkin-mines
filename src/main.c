@@ -13,22 +13,20 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     setlocale(LC_ALL, "en_US.UTF-8");
 
-
     struct board_window boardwin;
     struct info_window infowin;
 
     struct minesweeper_board *game_board = generate_board(16, 30, 99);
 
-    setup(&boardwin, &infowin, game_board);
+    setup(&boardwin, &infowin, game_board, 0);
 
     if (argc > 1 && (!strcmp(argv[1], "--debug") || !strcmp(argv[1], "-d")))
         boardwin.debug = 1;
     else boardwin.debug = 0;
 
     int ch;
-    while (1) {
+    for (;;) {
         if ((ch = getch()) > 0) {
-            // process key
             switch (ch) {
             case KEY_UP:
             case 'w':

@@ -20,7 +20,6 @@ void draw_board(struct board_window *self) {
     for(r = self->board->rows;
             r < self->board->rows + (self->board->num_rows-1); r++) {
         draw_mine_row(self, r);
-        //draw_between_row(self);
     }
     draw_mine_row(self, self->board->rows + (self->board->num_rows-1));
     draw_bottom_row(self);
@@ -89,25 +88,18 @@ void print_revealed_cell(struct board_window *self, struct cell *c) {
             //wattroff(self->win, A_STANDOUT);
             break;
         default:
+            wattron(self->win, A_DIM);
             wattron(self->win, COLOR_PAIR(c->num_mine_neighbors));
             waddch(self->win, ch);
             wattroff(self->win, COLOR_PAIR(c->num_mine_neighbors));
+            wattroff(self->win, A_DIM);
             break;
     }
 
 }
 
-void draw_between_row(struct board_window *self) {
-    waddstr(self->win, "├");
-
-    unsigned int i;
-    for (i = 0; i < self->board->num_cols-1; i++) {
-        waddstr(self->win, "───┼");
-    }
-
-    waddstr(self->win, "───┤\n");
-}
 void draw_top_row(struct board_window *self) {
+
     unsigned int num_chars_to_print = (self->board->num_cols);
     waddstr(self->win, "┌");
 

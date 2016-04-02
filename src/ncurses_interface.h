@@ -6,6 +6,7 @@
 #include "stopwatch.h"
 
 typedef enum {UP, DOWN, LEFT, RIGHT} direction;
+typedef enum {NORMAL, RED, GRAY, WHITE} draw_status;
 
 struct info_window;
 
@@ -18,6 +19,9 @@ struct board_window {
 
     int user_x, user_y;
     short debug;
+
+    draw_status draw_stat;
+
 };
 
 struct info_window {
@@ -28,7 +32,8 @@ struct info_window {
     struct minesweeper_board *board;
 };
 
-void setup();
+void setup(struct board_window *boardwin, struct info_window *infowin,
+           struct minesweeper_board *board, short restart);
 
 void draw_board();
 void draw_info();

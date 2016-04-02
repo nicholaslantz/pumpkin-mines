@@ -51,10 +51,15 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 
     enum gamestate ret = UNDECIDED;
 
-    if (c->status == REVEALED) {
+    switch (c->status) {
+    case FLAGGED:
+        // do nothing
         ret = self->state;
-        // return self->state because no change in gamestate
-    } else {
+        break;
+    case REVEALED:
+        // potential chord
+        break;
+    default:
         c->status = REVEALED;
         self->num_revealed++;
         if (c->type == MINE) {
@@ -229,7 +234,7 @@ char char_cell(struct cell *self, short should_hide) {
 
     if (self->status == FLAGGED) return 'F';
     if (self->type == MINE) return 'M';
-    if (self->num_mine_neighbors == 0) return '.';
+    if (self->num_mine_neighbors == 0) return ' ';
     
 
     return (char) (self->num_mine_neighbors + ASCII_OFFSET);
