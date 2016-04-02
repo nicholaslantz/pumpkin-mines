@@ -145,6 +145,8 @@ void shift_cursor(struct board_window *self, direction d) {
 }
 
 void reveal(struct board_window *self) {
+    if (self->board->state != UNDECIDED) return;
+
     enum gamestate result =
         reveal_cell(self->board, self->user_y, self->user_x);\
 
