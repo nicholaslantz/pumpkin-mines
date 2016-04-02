@@ -80,6 +80,11 @@ void print_cell(struct board_window *self, struct cell *c) {
 
 void print_revealed_cell(struct board_window *self, struct cell *c) {
 
+    if (c->type == MINE) {
+        waddch(self->win, 'M');
+        return;
+    }
+
     char ch = c->num_mine_neighbors + ASCII_OFFSET;
     switch (c->num_mine_neighbors) {
         case 0:
