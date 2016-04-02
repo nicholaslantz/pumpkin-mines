@@ -13,7 +13,7 @@ OBJS = $(SRCS:.c=.o)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(OBJS)
-	$(CC) $^ $(CLIBS) -o mines
+	$(CC) $^ $(CLIBS) -o pumpkin-mines
 
 clean:
 	$(RM) $(shell find . | grep -F .o)
