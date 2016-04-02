@@ -1,7 +1,7 @@
 
 SRC_ROOT = "src"
 
-CC = clang
+CC = gcc
 CFLAGS = -std=gnu11 -pedantic -Werror -Wall -g3
 CLIBS = -lncurses
 SRCS = $(shell find $(SRC_ROOT) -type f \( -iname "*.c" \))

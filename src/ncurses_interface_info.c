@@ -46,8 +46,6 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     boardwin->user_y = 0;
     boardwin->infowin = infowin;
 
-    boardwin->draw_stat = NORMAL;
-
     infowin->startx = 0;
     infowin->starty = LINES - 3 - 1;
     infowin->width = COLS;
