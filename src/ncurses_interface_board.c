@@ -170,5 +170,6 @@ void reveal(struct board_window *self) {
 }
 
 void flag(struct board_window *self) {
+    if (self->board->state != UNDECIDED) return;
     flag_cell(self->board, self->user_y, self->user_x);
 }
