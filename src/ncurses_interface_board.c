@@ -70,9 +70,9 @@ void print_cell(struct board_window *self, struct cell *c) {
             break;
         case FLAGGED:
             wattron(self->win, A_STANDOUT);
-            wattron(self->win, COLOR_PAIR(3));
+            wattron(self->win, COLOR_PAIR(6));
             wprintw(self->win, "F");
-            wattroff(self->win, COLOR_PAIR(3));
+            wattroff(self->win, COLOR_PAIR(6));
             wattroff(self->win, A_STANDOUT);
             break;
     }
