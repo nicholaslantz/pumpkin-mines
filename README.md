@@ -5,10 +5,10 @@ A Minesweeper implementation written in C using ncurses.
 
 ### Installation ##
 
-At the moment, it will only compile on a Linux machine. To run, simply
-download the source, navigate to the directory and type make. This will
-compile the source automatically the source. From there, type ./pumpkin-mines
-and the game will run.
+At the moment, it will only compile on a Linux machine. The program requires
+development libraries for ncurses as well as gcc. Once those two are installed,
+you just need to type make in the installed directory and the program will
+build itself. From there, type ./pumpkin-mines and the program will run.
 
 ### Controls ###
 
