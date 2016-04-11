@@ -2,7 +2,7 @@
 SRC_ROOT = "src"
 
 CC = gcc
-CFLAGS = -std=gnu11 -pedantic -Werror -Wall -g3
+CFLAGS = -std=gnu11 -pedantic -Werror -Wall
 CLIBS = -lncurses
 SRCS = $(shell find $(SRC_ROOT) -type f \( -iname "*.c" \))
 OBJS = $(SRCS:.c=.o)

@@ -224,13 +224,8 @@ void get_num_mine_neighbors(struct cell *self, struct minesweeper_board *board,
 }
 
 short in_bounds(struct minesweeper_board *board, short row, short col) {
-    if (row < 0 || col < 0) {
-        return 0;
-    }
-    if (row > board->num_rows-1 || col > board->num_cols-1) {
-        return 0;
-    }
-
+    if (row < 0 || row >= board->num_rows) return 0;
+    if (col < 0 || col >= board->num_cols) return 0;
     return 1;
 }
 
@@ -245,7 +240,7 @@ void print_board_revealed(struct minesweeper_board *self) {
     printf("\n");
 
     for(r=self->rows; r < self->rows + self->num_rows; r++) {
-        
+
         struct cell *c;
         for(c = r->cells; c < r->cells + self->num_cols; c++) {
             printf("%s %c ", "│", char_cell(c, 0));
@@ -268,7 +263,7 @@ char char_cell(struct cell *self, short should_hide) {
     if (self->status == FLAGGED) return 'F';
     if (self->type == MINE) return 'M';
     if (self->num_mine_neighbors == 0) return ' ';
-    
+
 
     return (char) (self->num_mine_neighbors + ASCII_OFFSET);
 }

@@ -23,7 +23,7 @@ void update_clock(struct stopwatch *self) {
             perror("Error updating time");
             exit(EXIT_FAILURE);
         }
-        
+
         self->elapsed_time.tv_nsec = self->time_current.tv_nsec
                                      - self->time_begin.tv_nsec;
         self->elapsed_time.tv_sec = self->time_current.tv_sec
