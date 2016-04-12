@@ -92,14 +92,12 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         }
         ret = self->state;
         break;
-    default:
+    case HIDDEN:
         c->status = REVEALED;
         self->num_revealed++;
-        if (c->type == MINE) {
-            ret = DEFEAT;
-        } else if (c->num_mine_neighbors == 0) {
+        if (c->type == MINE) ret = DEFEAT;
+        else if (c->num_mine_neighbors == 0) {
             // reveal 8 surrounding cells;
-
             short i, j;
             for(i = -1; i <= 1; i++) {
                 for(j = -1; j <= 1; j++) {
@@ -113,9 +111,8 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         }
     }
 
-    if (self->num_tiles - self->num_revealed - self->num_mines == 0) {
-        ret = VICTORY;
-    }
+    if (self->num_tiles - self->num_revealed - self->num_mines == 0
+        && ret != DEFEAT) ret = VICTORY;
 
     self->state = ret;
     return ret;
@@ -144,6 +141,7 @@ void flag_cell(struct minesweeper_board *self, unsigned short row,
 void generate_mines(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
     // naive implementation for now.
+    // Turns out, naive implementation is preeeeetty good
     if (self->num_mines > self->num_tiles) {
         fprintf(stderr, "Error: number of mines to place exceeds "
                  "total number of tiles\n");
@@ -224,12 +222,8 @@ void get_num_mine_neighbors(struct cell *self, struct minesweeper_board *board,
 }
 
 short in_bounds(struct minesweeper_board *board, short row, short col) {
-    if (row < 0 || col < 0) {
-        return 0;
-    }
-    if (row > board->num_rows-1 || col > board->num_cols-1) {
-        return 0;
-    }
+    if (row < 0 || col < 0) return 0;
+    if (row > board->num_rows-1 || col > board->num_cols-1) return 0;
 
     return 1;
 }

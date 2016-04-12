@@ -1,7 +1,7 @@
 /* Board - Create and manage the game board
  *
  * Author: Nicholas Lantz
- * Date: <2016-0307>
+ * Date: <2016-03-07>
  */
 
 #pragma once
@@ -31,7 +31,7 @@ struct minesweeper_board {
 
     enum gamestate state;
 
-    // short below make it easier to check if the player won each time
+    // shorts below make it easier to check if the player won each time
     // they reveal a tile
     unsigned short num_flagged;
     unsigned short num_tiles;
@@ -39,7 +39,7 @@ struct minesweeper_board {
 
 };
 
-/* This function will NOT place mines, call it to prepare the board for play.
+/* generate_board will NOT place mines, call it to prepare the board for play.
  * Revealing a single mine will cause the rest of the mines to be generated, no
  * other action is required of the caller.
  */
@@ -51,6 +51,7 @@ void generate_mines(struct minesweeper_board *self, unsigned short row,
 
 enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
+
 void flag_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
 
