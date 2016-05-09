@@ -223,19 +223,6 @@ short in_bounds(struct minesweeper_board *board, short row, short col) {
     return 1;
 }
 
-char char_cell(struct cell *self, short should_hide) {
-    if (should_hide) {
-        if (self->status == HIDDEN) return ' ';
-    }
-
-    if (self->status == FLAGGED) return 'F';
-    if (self->type == MINE) return 'M';
-    if (self->num_mine_neighbors == 0) return ' ';
-
-
-    return (char) (self->num_mine_neighbors + ASCII_OFFSET);
-}
-
 char *str_cell_status(struct cell *self) {
     switch(self->status) {
         case HIDDEN:
@@ -303,7 +290,7 @@ void delboard(struct minesweeper_board *self) {
     struct row *r;
 
     for(r = self->rows + (self->num_rows - 1); r >= self->rows; r--) {
-        free(r->cells);
+        free (r->cells);
     }
 
     free (self->rows);

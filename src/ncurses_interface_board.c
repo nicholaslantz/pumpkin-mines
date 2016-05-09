@@ -48,7 +48,7 @@ void draw_mine_row(struct board_window *self, struct row *r) {
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
         if (c->should_highlight) {
             wattron(self->win, A_BLINK);
-            waddch(self->win, char_cell(c, 1));
+            print_cell(self, c);
             wattroff(self->win, A_BLINK);
         } else {
             print_cell(self, c);
