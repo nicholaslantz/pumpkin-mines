@@ -6,6 +6,8 @@
 #include <string.h>
 #include <math.h>
 
+#include <ncurses.h> // for endwin()
+
 void generate_mines(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
 short place_mine(struct minesweeper_board *self, unsigned short row,
@@ -136,13 +138,13 @@ void flag_cell(struct minesweeper_board *self, unsigned short row,
 
 /* This function will not generate mines if the number of mines to place is
  * greater than number of tiles on board, it'll print an error message if the
- * caller tries to do that cause it's nice */
+ * caller tries to do that cause it's nice
+ */
 
 void generate_mines(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
-    // naive implementation for now.
-    // Turns out, naive implementation is preeeeetty good
     if (self->num_mines > self->num_tiles) {
+        endwin();
         fprintf(stderr, "Error: number of mines to place exceeds "
                  "total number of tiles\n");
         return;
@@ -151,12 +153,9 @@ void generate_mines(struct minesweeper_board *self, unsigned short row,
     unsigned short mines_to_place = self->num_mines;
 
     while (mines_to_place > 0) {
-        if (place_mine(self, row, col)) {
-            // successfully place mine
-            mines_to_place--;
-        } else {
-            continue;
-        }
+        if (place_mine(self, row, col)) mines_to_place--;
+         else continue;
+        
     }
 }
 
@@ -170,12 +169,9 @@ short place_mine(struct minesweeper_board *self, unsigned short row,
     unsigned short newrow = rand() % self->num_rows;
     unsigned short newcol = rand() % self->num_cols;
 
-    //if (self->rows[row]->cells[col].type == MINE) {
-    if (self->rows[newrow].cells[newcol].type == MINE) {
-        return 0;
-    } else if (is_close(self, row, col, newrow, newcol)) {
-        return 0;
-    } else {
+    if (self->rows[newrow].cells[newcol].type == MINE) return 0;
+    else if (is_close(self, row, col, newrow, newcol)) return 0;
+    else {
         self->rows[newrow].cells[newcol].type = MINE;
         return 1;
     }
@@ -187,7 +183,7 @@ short is_close(struct minesweeper_board *self, unsigned short row,
     signed int rowint = row; signed int colint = col;
     signed int newrowint = newrow; signed int newcolint = newcol;
 
-    return (abs(rowint - newrowint) < 2 && abs(colint - newcolint) < 3);
+    return (abs(rowint - newrowint) < 3 && abs(colint - newcolint) < 3);
 }
 
 void populate_cell_data(struct minesweeper_board *self) {
@@ -225,32 +221,6 @@ short in_bounds(struct minesweeper_board *board, short row, short col) {
     if (row < 0 || row >= board->num_rows) return 0;
     if (col < 0 || col >= board->num_cols) return 0;
     return 1;
-}
-
-void print_board_revealed(struct minesweeper_board *self) {
-    struct row *r;
-    unsigned int i;
-    unsigned int num_chars_to_print = (self->num_cols * 4) + 1;
-
-    for(i = 0; i < num_chars_to_print; i++) {
-        printf("%s", "─");
-    }
-    printf("\n");
-
-    for(r=self->rows; r < self->rows + self->num_rows; r++) {
-
-        struct cell *c;
-        for(c = r->cells; c < r->cells + self->num_cols; c++) {
-            printf("%s %c ", "│", char_cell(c, 0));
-        }
-
-        printf("%s\n", "│");
-        for(i = 0; i < num_chars_to_print; i++) {
-            printf("%s", "─");
-        }
-
-        printf("\n");
-    }
 }
 
 char char_cell(struct cell *self, short should_hide) {
