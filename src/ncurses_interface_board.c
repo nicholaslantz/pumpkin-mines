@@ -27,9 +27,9 @@ void draw_board(struct board_window *self) {
     if (self->debug) {
         // need to free memory over here
         wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
-        wprintw(self->win, "Cell Type: %s\n", str_cell_type(cursor));
-        wprintw(self->win, "Cell Status: %s\n", str_cell_status(cursor));
-        wprintw(self->win, "Game State: %s\n", str_gamestate(self->board));
+        wprintw(self->win, "Cell Type: %s\n", str_cell_type[cursor->type]);
+        wprintw(self->win, "Cell Status: %s\n", str_cell_status[cursor->status]);
+        wprintw(self->win, "Game State: %s\n", str_gamestate[self->board->state]);
         wprintw(self->win, "Mine Neighbors: %d", cursor->num_mine_neighbors);
     }
 
@@ -148,7 +148,7 @@ void reveal(struct board_window *self) {
     if (self->board->state != UNDECIDED) return;
 
     enum gamestate result =
-        reveal_cell(self->board, self->user_y, self->user_x);\
+        reveal_cell(self->board, self->user_y, self->user_x);
 
     if (self->infowin->sw->elapsed_time.tv_nsec == -1) {
         start_clock(self->infowin->sw);

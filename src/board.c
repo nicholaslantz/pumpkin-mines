@@ -8,6 +8,10 @@
 
 #include <ncurses.h> // for endwin()
 
+const char *str_cell_status[] = {"Hidden", "Revealed", "Flagged", "ERROR"};
+const char *str_cell_type[] = {"Clear", "Mine", "Error"};
+const char *str_gamestate[] = {"None", "Undecided", "Defeat", "Victory", "Error"};
+
 void generate_mines(struct minesweeper_board *self, unsigned short row,
         unsigned short col);
 short place_mine(struct minesweeper_board *self, unsigned short row,
@@ -16,6 +20,7 @@ void get_num_mine_neighbors(struct cell *self, struct minesweeper_board *board,
         short row, short col);
 short in_bounds(struct minesweeper_board *board, short row, short col);
 void populate_cell_data(struct minesweeper_board *self);
+
 
 struct minesweeper_board *generate_board(unsigned short rows,
        unsigned short cols, unsigned short num_mines) {
@@ -223,68 +228,7 @@ short in_bounds(struct minesweeper_board *board, short row, short col) {
     return 1;
 }
 
-char *str_cell_status(struct cell *self) {
-    switch(self->status) {
-        case HIDDEN:
-            return strdup("Hidden");
-        case REVEALED:
-            return strdup("REVEALED");
-        case FLAGGED:
-            return strdup("FLAGGED");
-        default:
-            return strdup("ERROR");
-    }
-}
 
-char *str_cell_type(struct cell *self) {
-    switch (self->type) {
-        case CLEAR:
-            return strdup("CLEAR");
-        case MINE:
-            return strdup("MINE");
-        default:
-            return strdup("ERROR");
-    }
-}
-
-char *str_gamestate(struct minesweeper_board *self) {
-    switch (self->state) {
-        case NONE:
-            return strdup("NONE");
-        case UNDECIDED:
-            return strdup("UNDECIDED");
-        case DEFEAT:
-            return strdup("DEFEAT");
-        case VICTORY:
-            return strdup("VICTORY");
-        default:
-            return strdup("ERROR");
-    }
-}
-
-char char_cell_type(enum cell_type self) {
-    switch (self) {
-        case CLEAR:
-            return ' ';
-        case MINE:
-            return 'X';
-        default:
-            return '!';
-    }
-}
-
-char char_cell_status(enum cell_status self) {
-    switch (self) {
-        case HIDDEN:
-            return '.';
-        case REVEALED:
-            return ' ';
-        case FLAGGED:
-            return 'F';
-        default:
-            return '!';
-    }
-}
 
 void delboard(struct minesweeper_board *self) {
     struct row *r;
