@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
         boardwin.debug = 1;
     else boardwin.debug = 0;
 
+
+
     int ch;
     for (;;) {
         if ((ch = getch()) > 0) {
@@ -55,9 +57,9 @@ int main(int argc, char **argv) {
             case 'q':
                 goto end;
             }
-            draw_board(&boardwin);
         }
-
+        
+        draw_board(&boardwin);
         draw_info(&infowin);
         usleep(20000);
     }
