@@ -159,7 +159,7 @@ void generate_mines(struct minesweeper_board *self, unsigned short row,
 
     while (mines_to_place > 0) {
         if (place_mine(self, row, col)) mines_to_place--;
-         else continue;
+        else continue;
         
     }
 }
