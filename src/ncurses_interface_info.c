@@ -42,8 +42,8 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     boardwin->win = newwin(boardwin->height, boardwin->width,
                            boardwin->starty, boardwin->startx);
     boardwin->board = board;
-    boardwin->user_x = 0;
-    boardwin->user_y = 0;
+    boardwin->user_x = (board->num_cols / 2) - 1;
+    boardwin->user_y = (board->num_rows / 2) - 1;
     boardwin->infowin = infowin;
 
     infowin->startx = 0;
@@ -52,7 +52,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     infowin->height = 3;
 
     infowin->win = newwin(infowin->height, infowin->width,
-                           infowin->starty, infowin->startx);
+                          infowin->starty, infowin->startx);
 
     if (!restart)
         infowin->sw = (struct stopwatch *) malloc(sizeof(struct stopwatch));
