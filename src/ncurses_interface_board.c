@@ -25,7 +25,6 @@ void draw_board(struct board_window *self) {
     draw_bottom_row(self);
 
     if (self->debug) {
-        // need to free memory over here
         wprintw(self->win, "(%d, %d)\n", self->user_x, self->user_y);
         wprintw(self->win, "Cell Type: %s\n", str_cell_type[cursor->type]);
         wprintw(self->win, "Cell Status: %s\n", str_cell_status[cursor->status]);
@@ -42,7 +41,7 @@ void print_cell(struct board_window *self, struct cell *c);
 void print_revealed_cell(struct board_window *self, struct cell *c);
 
 void draw_mine_row(struct board_window *self, struct row *r) {
-    
+
     struct cell *c;
     wprintw(self->win, "%s", "│");
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
