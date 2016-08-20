@@ -25,24 +25,27 @@ int main(int argc, char **argv) {
     else boardwin.debug = 0;
 
 
-
     int ch;
     for (;;) {
         if ((ch = getch()) > 0) {
             switch (ch) {
             case KEY_UP:
+            case 'k':
             case 'w':
                 shift_cursor(&boardwin, UP);
                 break;
             case KEY_DOWN:
+            case 'j':
             case 's':
                 shift_cursor(&boardwin, DOWN);
                 break;
             case KEY_LEFT:
+            case 'h':
             case 'a':
                 shift_cursor(&boardwin, LEFT);
                 break;
             case KEY_RIGHT:
+            case 'l':
             case 'd':
                 shift_cursor(&boardwin, RIGHT);
                 break;
