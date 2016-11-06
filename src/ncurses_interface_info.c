@@ -34,6 +34,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     init_pair(7, COLOR_BLACK, COLOR_BLACK);
     init_pair(8, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(10, COLOR_BLACK, COLOR_WHITE);
+    init_pair(11, COLOR_BLACK, COLOR_CYAN);
     boardwin->startx = 0;
     boardwin->starty = 0;
     boardwin->width = COLS;
