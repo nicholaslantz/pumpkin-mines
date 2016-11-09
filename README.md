@@ -12,12 +12,13 @@ build itself. From there, type ./pumpkin-mines and the program will run.
 
 If you desire to actually install it, there is currently a 'make install'
 target which will copy the binary into your '~/bin' directory. From there,
-add
+you can add '~/bin' to your PATH environment variables and you can type
+
 ```
-alias pmines='~/bin/pumpkin-mines'
+$ pumpkin-mines
 ```
-and you will be able to just type 'pmines' into your shell and the program will
-launch.
+
+into your shell, and the program will launch.
 
 ### Controls ###
 
