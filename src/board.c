@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
 #include <ncurses.h> // for endwin()
 
 const char *str_cell_status[] = {"Hidden", "Revealed", "Flagged", "ERROR"};
@@ -65,12 +64,11 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         break;
     case REVEALED:
         // potential chord
-        ;
+        
         if (c->num_mine_neighbors == 0) {
             ret = self->state;
             break;
         }
-
         short i, j;
         short num_flagged = 0;
         for(i = -1; i <= 1; i++) {
@@ -128,16 +126,19 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 void flag_cell(struct minesweeper_board *self, unsigned short row,
         unsigned short col) {
     struct cell *c = &(self->rows[row].cells[col]);
-
-    if (c->status == REVEALED) {
+    
+    switch (c->status) {
+    case REVEALED:
         // do nothing
-        return;
-    } else if (c->status == FLAGGED) {
+        break;
+    case FLAGGED:
         self->num_flagged--;
         c->status = HIDDEN;
-    } else if (c->status == HIDDEN) {
+        break;
+    case HIDDEN:
         self->num_flagged++;
         c->status = FLAGGED;
+        break;
     }
 }
 
@@ -160,7 +161,6 @@ void generate_mines(struct minesweeper_board *self, unsigned short row,
     while (mines_to_place > 0) {
         if (place_mine(self, row, col)) mines_to_place--;
         else continue;
-        
     }
 }
 
