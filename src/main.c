@@ -57,6 +57,9 @@ int main(int argc, char **argv) {
             case 'f':
                 flag(&boardwin);
                 break;
+            case KEY_F(3):
+                boardwin.debug = !boardwin.debug;
+                break;
             case 'q':
                 goto end;
             }

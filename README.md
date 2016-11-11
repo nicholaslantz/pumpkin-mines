@@ -26,6 +26,9 @@ into your shell, and the program will launch.
 * enter,e to reveal a cell
 * space,f to flag a cell
 * q to quit
+* F3 To toggle debug mode
+    * You can also give the program -d or --debug as arguments to
+      enable debug mode.
 
 ### To Do ###
 
