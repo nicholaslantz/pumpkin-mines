@@ -17,7 +17,7 @@ all: $(OBJS)
 	$(CC) $^ $(CLIBS) -o $(NAME)
 
 install: all
-	cp -p $(NAME) ~/bin
+	cp -p $(NAME) ~/bin/$(NAME)
 
 clean:
 	$(RM) $(shell find . | grep -F .o)
