@@ -38,7 +38,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     boardwin->startx = 0;
     boardwin->starty = 0;
     boardwin->width = COLS;
-    boardwin->height = LINES - 3;
+    boardwin->height = LINES - 1;
 
     boardwin->win = newwin(boardwin->height, boardwin->width,
                            boardwin->starty, boardwin->startx);
@@ -48,9 +48,9 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     boardwin->infowin = infowin;
 
     infowin->startx = 0;
-    infowin->starty = LINES - 3 - 1;
+    infowin->starty = LINES - 1;
     infowin->width = COLS;
-    infowin->height = 3;
+    infowin->height = 1;
 
     infowin->win = newwin(infowin->height, infowin->width,
                           infowin->starty, infowin->startx);
