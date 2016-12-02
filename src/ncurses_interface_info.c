@@ -68,8 +68,12 @@ void draw_info(struct info_window *self) {
         update_clock(self->sw);
     }
 
+    /* TODO: Make the program calculate the number of spaces for
+     *       the marked section. Now, assuming that it needs 2 spaces
+     *       because 99 is the hardcoded amount of mines
+     */
     wprintw(self->win,
-            "[%3d] Marked: %d/%d",
+            "[%3d] Marked: %2d/%2d",
             get_time_print(self->sw),
             self->board->num_flagged,
             self->board->num_mines);
