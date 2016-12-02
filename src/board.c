@@ -90,12 +90,14 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
                     
                     if (self->rows[row+i].cells[col+j].status == HIDDEN) {
                         if (reveal_cell(self, row+i, col+j) == DEFEAT)
-                            return DEFEAT;
+                            ret = DEFEAT;
                     }
                 }
             }
         }
-        ret = self->state;
+        if (ret != DEFEAT) {
+            ret = self->state;
+        }
         break;
     case HIDDEN:
         c->status = REVEALED;
