@@ -83,8 +83,8 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
 
         if (num_flagged == c->num_mine_neighbors) {
             // valid chord
-            for(i = -1; i <= 1; i++) {
-                for(j = -1; j <= 1; j++) {
+            for (i = -1; i <= 1; i++) {
+                for (j = -1; j <= 1; j++) {
                     if (i == 0 && j == 0) continue;
                     if (!in_bounds(self, row+i, col+j)) continue;
                     
@@ -104,8 +104,8 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         else if (c->num_mine_neighbors == 0) {
             // reveal 8 surrounding cells;
             short i, j;
-            for(i = -1; i <= 1; i++) {
-                for(j = -1; j <= 1; j++) {
+            for (i = -1; i <= 1; i++) {
+                for (j = -1; j <= 1; j++) {
                     if (i == 0 && j == 0) continue;
                     if (!in_bounds(self, row+i, col+j)) continue;
 
@@ -120,6 +120,18 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
         && ret != DEFEAT) ret = VICTORY;
 
     self->state = ret;
+
+    if (self->state == DEFEAT) {
+        // reveal all unflagged cells
+        struct row *r;
+        for (r = self->rows; r < self->rows + self->num_rows; r++) {
+            for (c = r->cells; c < r->cells + self->num_cols; c++) {
+                if (c->status != FLAGGED && c->type == MINE) {
+                    c->status = REVEALED;
+                }
+            }
+        }
+    }
     return ret;
 }
 
