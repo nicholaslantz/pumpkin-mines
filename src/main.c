@@ -64,10 +64,12 @@ int main(int argc, char **argv) {
                 break;
             case KEY_ENTER:
             case 'e':
+            case ',':
                 reveal(&boardwin);
                 break;
             case ' ':
             case 'f':
+            case '.':
                 flag(&boardwin);
                 break;
             case KEY_F(3):
