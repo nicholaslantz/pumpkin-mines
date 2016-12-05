@@ -8,6 +8,7 @@
 #include <locale.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 
 int main(int argc, char **argv) {
     srand(time(NULL));
@@ -24,30 +25,42 @@ int main(int argc, char **argv) {
         boardwin.debug = 1;
     else boardwin.debug = 0;
 
+    // So, ncurses is not capable of detecting modifier keys by default. I
+    // don't think it's standard that terminal applications detect them, so
+    // I'm not going to do any sketchy hacks to get them to work. Instead,
+    // to shift cursor by a larger amount you will need to input a capital
+    // character. That is, you MUST use wasd or hjkl to go farther than a
+    // single tile. Sorry arrow keys users.
 
     int ch;
     for (;;) {
         if ((ch = getch()) > 0) {
+            int shift_amount = 1;
+            if (ch <= 122 && isupper(ch)) {
+                ch = tolower(ch);
+                shift_amount = 5;
+            }
+
             switch (ch) {
             case KEY_UP:
             case 'k':
             case 'w':
-                shift_cursor(&boardwin, UP);
+                shift_cursor(&boardwin, UP, shift_amount);
                 break;
             case KEY_DOWN:
             case 'j':
             case 's':
-                shift_cursor(&boardwin, DOWN);
+                shift_cursor(&boardwin, DOWN, shift_amount);
                 break;
             case KEY_LEFT:
             case 'h':
             case 'a':
-                shift_cursor(&boardwin, LEFT);
+                shift_cursor(&boardwin, LEFT, shift_amount);
                 break;
             case KEY_RIGHT:
             case 'l':
             case 'd':
-                shift_cursor(&boardwin, RIGHT);
+                shift_cursor(&boardwin, RIGHT, shift_amount);
                 break;
             case KEY_ENTER:
             case 'e':

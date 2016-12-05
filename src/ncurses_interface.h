@@ -35,7 +35,7 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
 void draw_board();
 void draw_info();
 
-void shift_cursor(struct board_window *self, direction d);
+void shift_cursor(struct board_window *self, direction d, int amount);
 
 /* Will reveal the location that the player's cursor is under
  */

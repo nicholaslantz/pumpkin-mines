@@ -124,19 +124,27 @@ void draw_bottom_row(struct board_window *self) {
     waddstr(self->win, "┘\n");
 }
 
-void shift_cursor(struct board_window *self, direction d) {
+void shift_cursor(struct board_window *self, direction d, int amount) {
     switch (d) {
         case UP:
-            if (self->user_y > 0) self->user_y--;
+            self->user_y -= amount;
+            if (self->user_y < 0)
+                self->user_y = 0;
             break;
         case DOWN:
-            if (self->user_y < (self->board->num_rows - 1)) self->user_y++;
+            self->user_y += amount;
+            if (self->user_y > (self->board->num_rows - 1))
+                self->user_y = self->board->num_rows - 1;
             break;
         case RIGHT:
-            if (self->user_x < (self->board->num_cols - 1)) self->user_x++;
+            self->user_x += amount;
+            if (self->user_x > (self->board->num_cols - 1))
+                self->user_x = self->board->num_cols - 1;
             break;
         case LEFT:
-            if (self->user_x > 0) self->user_x--;
+            self->user_x -= amount;
+            if (self->user_x < 0)
+                self->user_x = 0;
             break;
     }
 }
