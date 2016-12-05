@@ -68,9 +68,17 @@ void print_cell(struct board_window *self, struct cell *c) {
             print_revealed_cell(self, c);
             break;
         case FLAGGED:
-            wattron(self->win, COLOR_PAIR(11));
-            wprintw(self->win, "F");
-            wattroff(self->win, COLOR_PAIR(11));
+            if (self->board->state == DEFEAT && c->type != MINE) {
+                wattron(self->win, A_STANDOUT);
+                wattron(self->win, COLOR_PAIR(5));
+                wprintw(self->win, "F");
+                wattroff(self->win, COLOR_PAIR(5));
+                wattroff(self->win, A_STANDOUT);
+            } else {
+                wattron(self->win, COLOR_PAIR(11));
+                wprintw(self->win, "F");
+                wattroff(self->win, COLOR_PAIR(11));
+            }
             break;
     }
 }
