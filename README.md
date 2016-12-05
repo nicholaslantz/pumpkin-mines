@@ -23,6 +23,9 @@ into your shell, and the program will launch.
 ### Controls ###
 
 * wasd or arrow keys to move the cursor.
+    * shift to move in increments of 5 tiles.
+        * Note: This will NOT work with arrow keys, see large comment
+          in main.c for explanation.
 * enter,e to reveal a cell
 * space,f to flag a cell
 * q to quit
