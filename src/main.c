@@ -18,7 +18,9 @@ int main(int argc, char **argv) {
     struct options opts = get_cmdline(argc, argv);
 
     if (opts.error) {
-        fprintf(stderr, "Try pumpkin-mines --help for more information\n");
+        fprintf(stderr,
+                "Try %s --help for more information\n",
+                argv[0]);
         return 1;
     }
     struct board_window boardwin;
