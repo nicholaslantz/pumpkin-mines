@@ -2,6 +2,7 @@
 
 #include "board.h"
 #include "ncurses_interface.h"
+#include "options.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -14,16 +15,22 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     setlocale(LC_ALL, "en_US.UTF-8");
 
+    struct options opts = get_cmdline(argc, argv);
+
+    if (opts.error) {
+        fprintf(stderr, "Try pumpkin-mines --help for more information\n");
+        return 1;
+    }
     struct board_window boardwin;
     struct info_window infowin;
 
-    struct minesweeper_board *game_board = generate_board(16, 30, 99);
+    struct minesweeper_board *game_board =
+        generate_board(opts.rows,
+                       opts.cols,
+                       opts.mines);
 
     setup(&boardwin, &infowin, game_board, 0);
-
-    if (argc > 1 && (!strcmp(argv[1], "--debug") || !strcmp(argv[1], "-d")))
-        boardwin.debug = 1;
-    else boardwin.debug = 0;
+    boardwin.debug = opts.debug;
 
     // So, ncurses is not capable of detecting modifier keys by default. I
     // don't think it's standard that terminal applications detect them, so
