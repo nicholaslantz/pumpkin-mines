@@ -22,13 +22,15 @@ void populate_cell_data(struct minesweeper_board *self);
 
 
 struct minesweeper_board *generate_board(unsigned short rows,
-       unsigned short cols, unsigned short num_mines) {
+       unsigned short cols, unsigned short num_mines,
+       unsigned short is_close_radius) {
 
     struct minesweeper_board *board = (struct minesweeper_board *)
             malloc(sizeof(struct minesweeper_board));
     board->num_rows = rows;
     board->num_cols = cols;
     board->num_mines = num_mines;
+    board->is_close_radius = is_close_radius;
     board->rows = (struct row *) malloc(sizeof(struct row) * board->num_rows);
 
     struct row *r;
@@ -189,7 +191,8 @@ short place_mine(struct minesweeper_board *self, unsigned short row,
     unsigned short newcol = rand() % self->num_cols;
 
     if (self->rows[newrow].cells[newcol].type == MINE) return 0;
-    else if (is_close(self, row, col, newrow, newcol)) return 0;
+    else if (is_close(self, row, col, newrow, newcol))
+        return 0;
     else {
         self->rows[newrow].cells[newcol].type = MINE;
         return 1;
@@ -202,7 +205,8 @@ short is_close(struct minesweeper_board *self, unsigned short row,
     signed int rowint = row; signed int colint = col;
     signed int newrowint = newrow; signed int newcolint = newcol;
 
-    return (abs(rowint - newrowint) < 3 && abs(colint - newcolint) < 3);
+    return (   abs(rowint - newrowint) < self->is_close_radius
+            && abs(colint - newcolint) < self->is_close_radius);
 }
 
 void populate_cell_data(struct minesweeper_board *self) {

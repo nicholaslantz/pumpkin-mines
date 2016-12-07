@@ -32,6 +32,7 @@ struct minesweeper_board {
     unsigned short num_rows, num_cols;
     struct row *rows;
     unsigned short num_mines;
+    unsigned short is_close_radius;
 
     enum gamestate state;
 
@@ -48,7 +49,8 @@ struct minesweeper_board {
  * other action is required of the caller.
  */
 struct minesweeper_board *generate_board(unsigned short rows,
-        unsigned short cols, unsigned short num_mines);
+        unsigned short cols, unsigned short num_mines,
+        unsigned short is_close_radius);
 
 void generate_mines(struct minesweeper_board *self, unsigned short row,
         unsigned short col);

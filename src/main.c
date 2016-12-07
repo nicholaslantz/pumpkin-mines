@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
     struct minesweeper_board *game_board =
         generate_board(opts.rows,
                        opts.cols,
-                       opts.mines);
+                       opts.mines,
+                       2);
 
     setup(&boardwin, &infowin, game_board, 0);
     boardwin.debug = opts.debug;
