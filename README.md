@@ -20,6 +20,10 @@ $ pumpkin-mines
 
 into your shell, and the program will launch.
 
+### Arguments ###
+
+TODO
+
 ### Controls ###
 
 * wasd or arrow keys to move the cursor.
