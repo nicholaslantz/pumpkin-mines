@@ -24,6 +24,16 @@ into your shell, and the program will launch.
 
 TODO
 
+You can use the following command to create a board as large as your terminal can
+handle. To increase or decrease the number of mines, change the fraction
+represented in the -m argument. 20% is about right in terms of difficulty.
+Please note, you must accomplish the fraction in terms of integer division
+because the program will not accept floating point numbers.
+
+```
+$ pumpkin-mines -r $((LINES-3)) -c $((COLUMNS-3)) -m $(((2 * LINES * COLUMNS) / 10))
+```
+
 ### Controls ###
 
 * wasd or arrow keys to move the cursor.
@@ -41,4 +51,3 @@ TODO
 
 * Add better win/loss feedback
 * High scores
-* Multiple board types (easy, intermediate, hard)
