@@ -10,15 +10,23 @@ development libraries for ncurses as well as gcc. Once those two are installed,
 you just need to type make in the installed directory and the program will
 build itself. From there, type ./pumpkin-mines and the program will run.
 
-If you desire to actually install it, there is currently a 'make install'
-target which will copy the binary into your '~/bin' directory. From there,
-you can add '~/bin' to your PATH environment variables and you can type
+If you desire to actually install it, just copy the binary to any location
+that is on your PATH. (type echo $PATH in a terminal to see directories in your
+path). Once this done, type 
 
 ```
 $ pumpkin-mines
 ```
 
 into your shell, and the program will launch.
+
+I recommend making an alias in your .bashrc, .zshrc, etc. like
+
+```
+alias pmines=pumpkin-mines
+```
+
+As that will make the program much easier to type/run
 
 ### Arguments ###
 
