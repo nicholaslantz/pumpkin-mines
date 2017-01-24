@@ -3,6 +3,7 @@
 #include "board.h"
 #include "ncurses_interface.h"
 #include "options.h"
+#include "init_parse.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -23,6 +24,9 @@ int main(int argc, char **argv) {
                 argv[0]);
         return 1;
     }
+
+    // TODO: Specify range of file names
+    //struct controls = load_init_file(
     struct board_window boardwin;
     struct info_window infowin;
 
