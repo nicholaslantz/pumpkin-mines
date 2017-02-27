@@ -3,7 +3,7 @@
 #include "board.h"
 #include "ncurses_interface.h"
 #include "options.h"
-#include "init_parse.h"
+//#include "init_parse.h"
 
 #include <stdlib.h>
 #include <time.h>
