@@ -63,6 +63,7 @@ struct options get_cmdline(int argc, char **argv) {
     static struct option long_options[] = {
         {"beginner",     no_argument,       NULL, 'b'},
         {"cols",         required_argument, NULL, 'c'},
+        {"config",       required_argument, NULL, 'z'}, // completely arbitrary
         {"debug",        no_argument,       NULL, 'd'},
         {"expert",       no_argument,       NULL, 'e'},
         {"intermediate", no_argument,       NULL, 'i'},
@@ -153,6 +154,9 @@ struct options get_cmdline(int argc, char **argv) {
         case 'h':
             fputs(USAGE, stdout);
             exit(EXIT_SUCCESS); 
+        case 'z':
+            ret.rc_filename = strdup(optarg);
+            break;
         case '?':
             ret.error = 1;
             break;

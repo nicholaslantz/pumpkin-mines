@@ -25,8 +25,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    // TODO: Specify range of file names
-    //struct controls = load_init_file(
+    struct controls ctrls = load_init_file(opts.rc_filename);
     struct board_window boardwin;
     struct info_window infowin;
 
@@ -50,55 +49,32 @@ int main(int argc, char **argv) {
     for (;;) {
         if ((ch = getch()) > 0) {
             int shift_amount = 1;
-            if (ch <= 122 && isupper(ch)) {
-                ch = tolower(ch);
-                shift_amount = 5;
-            }
 
-            switch (ch) {
-            case KEY_UP:
-            case 'k':
-            case 'w':
+            // This used to be a switch, now that the controls are variables it
+            // must be an if-else chain.
+            if (ch == ctrls.up) {
                 shift_cursor(&boardwin, UP, shift_amount);
-                break;
-            case KEY_DOWN:
-            case 'j':
-            case 's':
+            } else if (ch == ctrls.down) {
                 shift_cursor(&boardwin, DOWN, shift_amount);
-                break;
-            case KEY_LEFT:
-            case 'h':
-            case 'a':
+            } else if (ch == ctrls.left) {
                 shift_cursor(&boardwin, LEFT, shift_amount);
-                break;
-            case KEY_RIGHT:
-            case 'l':
-            case 'd':
+            } else if (ch == ctrls.right) {
                 shift_cursor(&boardwin, RIGHT, shift_amount);
-                break;
-            case KEY_ENTER:
-            case 'e':
-            case ',':
+            } else if (ch == ctrls.reveal) {
                 reveal(&boardwin);
-                break;
-            case ' ':
-            case 'f':
-            case '.':
+            } else if (ch == ctrls.flag) {
                 flag(&boardwin);
-                break;
-            case KEY_F(3):
+            } else if (ch == KEY_F(3)) {
                 boardwin.debug = !boardwin.debug;
-                break;
-            case 'q':
+            } else if (ch == 'q') {
                 goto end;
             }
         }
-        
         draw_board(&boardwin);
         draw_info(&infowin);
         usleep(20000);
     }
-    
+
     end:
     delboard(game_board);
 

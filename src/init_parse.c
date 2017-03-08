@@ -11,11 +11,11 @@
 
 const char *VALID_KEYS[] = {
     "up", "down", "left", "right",
-    "far_up", "far_down", "far_left", "far_right"
-    "reveal", "flag", "debug", "far_amount"
+    "far_up", "far_down", "far_left", "far_right",
+    "flag", "reveal", "debug"
 };
 
-const unsigned NUM_VALID_KEYS = 12;
+const unsigned NUM_VALID_KEYS = 11;
 
 struct controls load_init_file(const char *filename) {
     struct controls ret;
@@ -23,14 +23,21 @@ struct controls load_init_file(const char *filename) {
     // format:
     // control=key
     // Only one of these "declarations" per line
-    
-    char **lineptr = NULL;
-    size_t *n = NULL;
 
     FILE *in = fopen(filename, "r");
 
+    if (! in) {
+        fprintf(stderr, "Error loading %s, does this file exist?\n", filename);
+        ret.error = 1;
+        return ret;
+    }
+
+    // I have C programmer's disease. 1024 bytes should be sufficient here
+    int line_size = 1024;
+    char line[1024];
+
     int line_number = 0;
-    while (getline(lineptr, n, in)) {
+    while (fgets(line, line_size, in)) {
         char *key, *val;
 
         line_number++;
@@ -38,34 +45,37 @@ struct controls load_init_file(const char *filename) {
         // Should be nice and output messages
 
         // Check that the line contains an '='
-        char *contains_eq = strstr(*lineptr, "=");
+        char *contains_eq = strstr(line, "=");
 
         if (!contains_eq) {
-            fprintf(stderr, "Invalid entry: No '=' in line %d", line_number);
+            fprintf(stderr, "Invalid entry: No '=' in line %d\n", line_number);
             ret.error = 1;
         }
 
-        key = strtok(*lineptr, "=");
+        key = strtok(line, "=");
         val = strtok(NULL, "=");
 
         int key_found = 0;
         for (int i = 0; i < NUM_VALID_KEYS; i++) {
-            if (key == VALID_KEYS[i]) {
+            if (strcmp(key, VALID_KEYS[i]) == 0) {
+                //TODO: Handle function, enter keys
+
                 // incredibly sketchy hack, doubt it will work
-                // TODO: Handle function, enter keys
+                // it works
                 ((char*)&ret)[i] = val[0];
                 key_found = 1;
+                break;
             }
         }
 
         if (!key_found) {
             fprintf(stderr,
-                    "Invalid Entry: %s not in valid keys, ignoring entry",
+                    "Invalid Entry: %s not in valid keys, ignoring entry\n",
                     key);
         }
 
-        free(*lineptr);
     }
 
+    fclose(in);
     return ret;
 }
