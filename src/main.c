@@ -27,6 +27,10 @@ int main(int argc, char **argv) {
     }
 
     struct controls ctrls = load_init_file(opts.rc_filename);
+
+    if (ctrls.error) {
+        return 1;
+    }
     struct board_window boardwin;
     struct info_window infowin;
 

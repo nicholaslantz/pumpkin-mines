@@ -36,6 +36,16 @@ struct minesweeper_board *generate_board(unsigned short rows,
     struct row *r;
     for (r=board->rows; r < board->rows + board->num_rows; r++) {
         r->cells = (struct cell *) malloc(sizeof(struct cell) * board->num_cols);
+        struct cell *c;
+
+        // For some reason, not initializing this cell data causes weird things to
+        // happen with ncurses. If someone every finds out why, please let me know.
+        for (c=r->cells; c < r->cells + board->num_cols; c++) {
+            c->type = CLEAR;
+            c->status = HIDDEN;
+            c->num_mine_neighbors = 0;
+            c->should_highlight = 0;
+        }
     }
 
     board->state = UNDECIDED;

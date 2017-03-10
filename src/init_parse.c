@@ -19,13 +19,12 @@ const char *VALID_KEYS[] = {
 const unsigned NUM_VALID_KEYS = 11;
 
 struct controls load_init_file(const char *filename) {
-    struct controls ret;
+    struct controls ret = (struct controls) {
+        KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, 0, 0, 0, 0, 'f', 'e', 'm', 0
+    };
 
     if (! filename) {
         // If user did not supply a filename, set default values
-        ret = (struct controls) {
-            KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, 0, 0, 0, 0, 'f', 'e', 'm'
-        };
         return ret;
     }
 

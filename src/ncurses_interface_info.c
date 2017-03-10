@@ -5,13 +5,10 @@
 
 void setup(struct board_window *boardwin, struct info_window *infowin,
            struct minesweeper_board *board, short restart) {
+
+    // Must call this function to begin using ncurses. Sets up the initial
+    // ncurses environment
     initscr();
-    cbreak();
-    raw();
-    noecho();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    curs_set(FALSE);
 
     if (!has_colors()) {
         // very elegant solution to the problem
@@ -21,6 +18,34 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     }
 
     start_color();
+    // Disables line buffering and erase/kill character processing for the
+    // terminal. Should make it run faster
+    //cbreak();
+    raw();
+
+    // Disables the terminal's native line feed capabilities. This will =
+    // make ncurses run a little faster
+    nonl();
+
+    // This will cause the user's input to not appear on the screen. This
+    // is what we want. Don't want the user's keys to overwrite the game
+    // board or anything.
+    noecho();
+
+    // By default, input will be flushed when an interrupt is fired. This
+    // function with FALSE disables this functionality
+    //intrflush(stdscr, FALSE);
+    timeout(0);
+
+    // This causes getch() to not block until input is received. If we did not
+    // use this, the timer would not update until the user enters a key.
+    nodelay(stdscr, TRUE);
+
+    // Causes the terminal to hide the cursor. pumpkin-mines uses its own
+    // cursor "system", so the terminal's is not necessary
+    curs_set(FALSE);
+
+
 
     init_color(COLOR_BLACK, 0, 0, 0);
 
