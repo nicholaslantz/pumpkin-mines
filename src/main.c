@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
     if (ctrls.error) {
         return 1;
     }
+
     struct board_window boardwin;
     struct info_window infowin;
 

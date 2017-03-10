@@ -40,6 +40,11 @@ struct minesweeper_board *generate_board(unsigned short rows,
 
         // For some reason, not initializing this cell data causes weird things to
         // happen with ncurses. If someone every finds out why, please let me know.
+        //
+        // To reproduce behaviour, checkout commit c034f2... Comment out the
+        // struct cell *c above and the entire for loop below. Enter
+        // ./pumpkin-mines --config=doc/wasd_config in the terminal, and watch
+        // what happens.
         for (c=r->cells; c < r->cells + board->num_cols; c++) {
             c->type = CLEAR;
             c->status = HIDDEN;
