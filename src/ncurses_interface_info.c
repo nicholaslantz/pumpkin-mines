@@ -22,7 +22,6 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
 
     start_color();
 
-    //assume_default_colors(COLOR_WHITE, COLOR_BLACK);
     init_color(COLOR_BLACK, 0, 0, 0);
 
     init_pair(1, COLOR_BLUE, COLOR_BLACK);

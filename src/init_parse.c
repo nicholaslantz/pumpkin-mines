@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 const char *VALID_KEYS[] = {
     "up", "down", "left", "right",
@@ -19,6 +20,14 @@ const unsigned NUM_VALID_KEYS = 11;
 
 struct controls load_init_file(const char *filename) {
     struct controls ret;
+
+    if (! filename) {
+        // If user did not supply a filename, set default values
+        ret = (struct controls) {
+            KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, 0, 0, 0, 0, 'f', 'e', 'm'
+        };
+        return ret;
+    }
 
     // format:
     // control=key
@@ -62,7 +71,7 @@ struct controls load_init_file(const char *filename) {
 
                 // incredibly sketchy hack, doubt it will work
                 // it works
-                ((char*)&ret)[i] = val[0];
+                ((int*)&ret)[i] = val[0];
                 key_found = 1;
                 break;
             }
