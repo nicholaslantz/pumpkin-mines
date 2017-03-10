@@ -3,7 +3,7 @@ SRC_ROOT = "src"
 
 CC = gcc
 CFLAGS = -std=gnu11 -pedantic -Werror -Wall -g3
-CLIBS = -lncurses
+CLIBS = -lncursesw
 SRCS = $(shell find $(SRC_ROOT) -type f \( -iname "*.c" \))
 OBJS = $(SRCS:.c=.o)
 NAME = pumpkin-mines

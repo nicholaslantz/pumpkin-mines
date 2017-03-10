@@ -15,6 +15,8 @@
 int main(int argc, char **argv) {
     srand(time(NULL));
 
+    setlocale(LC_ALL, "");
+
     struct options opts = get_cmdline(argc, argv);
 
     if (opts.error) {

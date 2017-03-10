@@ -1,0 +1,11 @@
+up=k
+left=h
+down=j
+right=l
+far_up=K
+far_left=H
+far_down=J
+far_right=L
+reveal=e
+flag=f
+debug=d
