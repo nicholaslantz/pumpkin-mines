@@ -17,7 +17,7 @@ void draw_board(struct board_window *self) {
 
     draw_top_row(self);
 
-    for(r = self->board->rows;
+    for (r = self->board->rows;
             r < self->board->rows + (self->board->num_rows-1); r++) {
         draw_mine_row(self, r);
     }
@@ -43,7 +43,7 @@ void print_revealed_cell(struct board_window *self, struct cell *c);
 void draw_mine_row(struct board_window *self, struct row *r) {
 
     struct cell *c;
-    wprintw(self->win, "%s", "│");
+    waddch(self->win, ACS_VLINE);
     for (c = r->cells; c < r->cells + self->board->num_cols; c++) {
         if (c->should_highlight) {
             wattron(self->win, A_STANDOUT);
@@ -54,7 +54,8 @@ void draw_mine_row(struct board_window *self, struct row *r) {
         }
     }
 
-    wprintw(self->win, "%s\n", "│");
+    waddch(self->win, ACS_VLINE);
+    waddch(self->win, '\n');
 }
 
 void print_cell(struct board_window *self, struct cell *c) {
@@ -111,25 +112,27 @@ void print_revealed_cell(struct board_window *self, struct cell *c) {
 void draw_top_row(struct board_window *self) {
 
     unsigned int num_chars_to_print = (self->board->num_cols);
-    waddstr(self->win, "┌");
+    waddch(self->win, ACS_ULCORNER);
 
     unsigned int i;
     for(i = 0; i < num_chars_to_print; i++) {
-        waddstr(self->win, "─");
+        waddch(self->win, ACS_HLINE);
     }
 
-    waddstr(self->win, "┐\n");
+    waddch(self->win, ACS_URCORNER);
+    waddch(self->win, '\n');
 }
 void draw_bottom_row(struct board_window *self) {
     unsigned int num_chars_to_print = (self->board->num_cols);
-    waddstr(self->win, "└");
+    waddch(self->win, ACS_LLCORNER);
 
     unsigned int i;
     for(i = 0; i < num_chars_to_print; i++) {
-        waddstr(self->win, "─");
+        waddch(self->win, ACS_HLINE);
     }
 
-    waddstr(self->win, "┘\n");
+    waddch(self->win, ACS_LRCORNER);
+    waddch(self->win, '\n');
 }
 
 void shift_cursor(struct board_window *self, direction d, int amount) {
@@ -169,16 +172,16 @@ void reveal(struct board_window *self) {
     }
 
     switch (result) {
-    case UNDECIDED:
-        break;
-    case DEFEAT:
-        stop_clock(self->infowin->sw);
-        break;
-    case VICTORY:
-        stop_clock(self->infowin->sw);
-        break;
-    default:
-        break;
+        case UNDECIDED:
+            break;
+        case DEFEAT:
+            stop_clock(self->infowin->sw);
+            break;
+        case VICTORY:
+            stop_clock(self->infowin->sw);
+            break;
+        default:
+            break;
     }
 }
 
