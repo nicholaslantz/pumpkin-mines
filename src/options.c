@@ -59,7 +59,6 @@ const char USAGE[] =
 int parse_int(const char *arg, const char flag_char);
 
 struct options get_cmdline(int argc, char **argv) {
-    
     static struct option long_options[] = {
         {"beginner",     no_argument,       NULL, 'b'},
         {"cols",         required_argument, NULL, 'c'},
@@ -79,6 +78,7 @@ struct options get_cmdline(int argc, char **argv) {
     ret.mines = 99;
     ret.debug = 0;
     ret.error = 0;
+    ret.rc_filename = NULL;
 
     int have_set_difficulty = 0;
     int flag_char = 0;
@@ -170,6 +170,37 @@ struct options get_cmdline(int argc, char **argv) {
     const int NUM_TILES_CANT_BE_MINE = 5*5;
     if (ret.rows * ret.cols - NUM_TILES_CANT_BE_MINE < ret.mines) {
         ret.error = 2;
+    }
+
+    if (! ret.rc_filename) {
+        char *home = getenv("HOME");
+        char files_to_check[][256] = {
+            ".pumpkinminesrc", ".config/pumpkinmines/config"
+        };
+        for (int i = 0;
+             i < sizeof(files_to_check)/sizeof(sizeof(char) * 256);
+             i++) {
+            char filename[256];
+            sprintf(filename, "%s/%s", home, files_to_check[i]);
+            FILE *config;
+            if (! (config = fopen(filename, "r"))) {
+                continue;
+            } else {
+                ret.rc_filename = strdup(filename);
+                fclose(config);
+                break;
+            }
+        }
+    }
+
+    if (! ret.rc_filename) {
+        char filename[256] = "/etc/pumpkinmines/config";
+        FILE *config;
+        if ((config = fopen(filename, "r"))) {
+            // successfully opened the file
+            ret.rc_filename = strdup(filename);
+            fclose(config);
+        }
     }
 
     return ret;
