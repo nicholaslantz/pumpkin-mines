@@ -39,21 +39,27 @@ const char USAGE[] =
     " -i,   --intermediate......play intermediate baord\n"
     " -m,   --mines=SIZE........specify the number of mines\n"
     " -r,   --rows=SIZE.........specify the number of rows\n"
+    "       --config=FILENAME...specifiy a configuration file\n"
     "\n"
-    "The SIZE argument is a postive, non-zero integer\n"
+    "The SIZE argument is a positive, non-zero integer\n"
     "If a difficulty is specified with -b, -i, or -e, then \n"
     "    -c, -m, and -r arguments will be ignored.\n"
     "If no options are specified, then an expert board will be generated\n"
     "    That is, \"pumpkin-mines\" is equivalent to \"pumpkin-mines -e\"\n"
     "\n"
     "Once the game is launched use the following controls\n"
-    " wasd, hjkl, arrow keys....move the cursor\n"
-    "   SHIFT + movement........move the cursor in larger incrememnts\n"
-    "                           note: SHIFT does not work with arrow keys\n"
+    " arrow keys................move the cursor\n"
     " e, <RETURN>...............reveal a tile\n"
     " f, <SPACE>................flag a tile\n"
     " F3........................toggle Debug mode\n"
-    " q.........................quit\n";
+    " q.........................quit\n"
+    "\n"
+    "If you would like to use different keybindings, you can create a\n"
+    "configuration file to specify them. See the example in the doc directory\n"
+    "of the installation directory. You can place your config file in\n"
+    "~/.pumpkinminesrc, ~/.config/pumpkinmines/config, or\n"
+    "/etc/pumpkinmines/config and it will be automatically loaded on\n"
+    "program startup.\n";
 
 
 int parse_int(const char *arg, const char flag_char);
