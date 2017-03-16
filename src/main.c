@@ -29,6 +29,8 @@ int main(int argc, char **argv) {
     struct controls ctrls = load_init_file(opts.rc_filename);
 
     if (ctrls.error) {
+        fprintf(stderr, "Errors encountered while parsing config file\n");
+        fprintf(stderr, "Please revise and try again\n");
         return 1;
     }
 
@@ -54,18 +56,24 @@ int main(int argc, char **argv) {
     int ch;
     for (;;) {
         if ((ch = getch()) > 0) {
-            int shift_amount = 1;
-
             // This used to be a switch, now that the controls are variables it
             // must be an if-else chain.
             if (ch == ctrls.up) {
-                shift_cursor(&boardwin, UP, shift_amount);
+                shift_cursor(&boardwin, UP, 1);
             } else if (ch == ctrls.down) {
-                shift_cursor(&boardwin, DOWN, shift_amount);
+                shift_cursor(&boardwin, DOWN, 1);
             } else if (ch == ctrls.left) {
-                shift_cursor(&boardwin, LEFT, shift_amount);
+                shift_cursor(&boardwin, LEFT, 1);
             } else if (ch == ctrls.right) {
-                shift_cursor(&boardwin, RIGHT, shift_amount);
+                shift_cursor(&boardwin, RIGHT, 1);
+            } else if (ch == ctrls.far_up) {
+                shift_cursor(&boardwin, UP, 5);
+            } else if (ch == ctrls.far_down) {
+                shift_cursor(&boardwin, DOWN, 5);
+            } else if (ch == ctrls.far_left) {
+                shift_cursor(&boardwin, LEFT, 5);
+            } else if (ch == ctrls.far_right) {
+                shift_cursor(&boardwin, RIGHT, 5);
             } else if (ch == ctrls.reveal) {
                 reveal(&boardwin);
             } else if (ch == ctrls.flag) {

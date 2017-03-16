@@ -20,7 +20,7 @@ const unsigned NUM_VALID_KEYS = 11;
 
 struct controls load_init_file(const char *filename) {
     struct controls ret = (struct controls) {
-        KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, 0, 0, 0, 0, 'f', 'e', 'm', 0
+        'h', 'j', 'k', 'l', 'H', 'J', 'K', 'L', 'f', 'e', 'm', 0
     };
 
     if (! filename) {
@@ -78,8 +78,9 @@ struct controls load_init_file(const char *filename) {
 
         if (!key_found) {
             fprintf(stderr,
-                    "Invalid Entry: %s not in valid keys, ignoring entry\n",
-                    key);
+                    "Invalid Entry on line %d: %s not in valid keys\n",
+                    line_number, key);
+            ret.error = 1;
         }
 
     }
