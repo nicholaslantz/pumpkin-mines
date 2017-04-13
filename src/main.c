@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     for (;;) {
         if ((ch = getch()) > 0) {
             // This used to be a switch, now that the controls are variables it
-            // must be an if-else chain.
+            // must be an if-else chain (or a data structure of some kind).
             if (ch == ctrls.up) {
                 shift_cursor(&boardwin, UP, 1);
             } else if (ch == ctrls.down) {
@@ -80,7 +80,15 @@ int main(int argc, char **argv) {
                 flag(&boardwin);
             } else if (ch == KEY_F(3)) {
                 boardwin.debug = !boardwin.debug;
-            } else if (ch == 'q') {
+            } else if (ch == 'n') {
+	      delboard(game_board);
+	      game_board = generate_board(opts.rows,
+					  opts.cols,
+					  opts.mines,
+					  2);
+	      setup(&boardwin, &infowin, game_board, 0);
+	      boardwin.debug = opts.debug;
+	    } else if (ch == 'q') {
                 goto end;
             }
         }
