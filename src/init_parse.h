@@ -8,7 +8,7 @@
 struct controls {
     int up, down, left, right;
     int far_up, far_down, far_left, far_right;
-    int flag, reveal, debug;
+    int flag, reveal, newgame, debug;
 
     int error;
 };

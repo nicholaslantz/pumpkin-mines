@@ -78,9 +78,9 @@ int main(int argc, char **argv) {
                 reveal(&boardwin);
             } else if (ch == ctrls.flag) {
                 flag(&boardwin);
-            } else if (ch == KEY_F(3)) {
+            } else if (ch == KEY_F(3) || ch == ctrls.debug) {
                 boardwin.debug = !boardwin.debug;
-            } else if (ch == 'n') {
+            } else if (ch == ctrls.newgame) {
 	      delboard(game_board);
 	      game_board = generate_board(opts.rows,
 					  opts.cols,

@@ -13,14 +13,14 @@
 const char *VALID_KEYS[] = {
     "up", "down", "left", "right",
     "far_up", "far_down", "far_left", "far_right",
-    "flag", "reveal", "debug"
+    "flag", "reveal", "newgame", "debug"
 };
 
-const unsigned NUM_VALID_KEYS = 11;
+const unsigned NUM_VALID_KEYS = 12;
 
 struct controls load_init_file(const char *filename) {
     struct controls ret = (struct controls) {
-        'h', 'j', 'k', 'l', 'H', 'J', 'K', 'L', 'f', 'e', 'm', 0
+        'h', 'j', 'k', 'l', 'H', 'J', 'K', 'L', 'f', 'e', 'm', 'n', 0
     };
 
     if (! filename) {
