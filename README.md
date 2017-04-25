@@ -12,7 +12,7 @@ build itself. From there, type ./pumpkin-mines and the program will run.
 
 If you desire to actually install it, just copy the binary to any location
 that is on your PATH. (type echo $PATH in a terminal to see directories in your
-path). Once this done, type 
+path). Once this is done, type 
 
 ```
 $ pumpkin-mines
