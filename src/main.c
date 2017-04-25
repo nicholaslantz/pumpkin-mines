@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 	      setup(&boardwin, &infowin, game_board, 0);
 	      boardwin.debug = opts.debug;
 	    } else if (ch == 'q') {
-                goto end;
+		break;
             }
         }
         draw_board(&boardwin);
@@ -97,7 +97,6 @@ int main(int argc, char **argv) {
         usleep(20000);
     }
 
-    end:
     delboard(game_board);
 
     endwin();
