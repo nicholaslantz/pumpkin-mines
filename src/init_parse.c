@@ -19,8 +19,9 @@ const char *VALID_KEYS[] = {
 const unsigned NUM_VALID_KEYS = 12;
 
 struct controls load_init_file(const char *filename) {
+
     struct controls ret = (struct controls) {
-        'h', 'j', 'k', 'l', 'H', 'J', 'K', 'L', 'f', 'e', 'm', 'n', 0
+      'k', 'j', 'h', 'l', 'K', 'J', 'H', 'L', 'f', 'e', 'n', 'd', 0
     };
 
     if (! filename) {
