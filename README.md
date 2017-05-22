@@ -45,17 +45,8 @@ because the program will not accept floating point numbers.
 $ pumpkin-mines -r $((LINES-3)) -c $((COLUMNS-3)) -m $(((2 * LINES * COLUMNS) / 10))
 ```
 
-### Controls ###
-
-* arrow keys to move the cursor.
-* e to reveal a cell
-* f to flag a cell
-* q to quit
-* F3 To toggle debug mode
-    * You can also give the program -d or --debug as arguments to
-      enable debug mode.
-
 ### To Do ###
 
 * Add better win/loss feedback
 * High scores
+* Add confirmation for restart if game isn't over
