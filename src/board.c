@@ -151,6 +151,7 @@ enum gamestate reveal_cell(struct minesweeper_board *self, unsigned short row,
             }
         }
     }
+
     return ret;
 }
 

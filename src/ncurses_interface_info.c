@@ -18,9 +18,9 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     }
 
     start_color();
+
     // Disables line buffering and erase/kill character processing for the
     // terminal. Should make it run faster
-    //cbreak();
     raw();
 
     // Disables the terminal's native line feed capabilities. This will =
@@ -44,10 +44,6 @@ void setup(struct board_window *boardwin, struct info_window *infowin,
     // Causes the terminal to hide the cursor. pumpkin-mines uses its own
     // cursor "system", so the terminal's is not necessary
     curs_set(FALSE);
-
-
-
-    init_color(COLOR_BLACK, 0, 0, 0);
 
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
